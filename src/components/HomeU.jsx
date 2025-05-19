@@ -1,5 +1,5 @@
 export function HomeU(){
     return (
-        <h1>Homepage</h1>
+        <h1>Controla Fácil</h1>
     )
 }

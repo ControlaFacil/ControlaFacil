@@ -6,7 +6,6 @@ export function App() {
   return (
     <div>
       <HeaderU />
-      <h1>ControlaFacil</h1>
       <HomeU />
     </div>
   )
