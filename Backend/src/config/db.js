@@ -7,7 +7,7 @@ const dbConfig = {
     user: process.env.DB_USER, // Usuário do banco de dados
     password: process.env.DB_PASSWORD, // Senha do banco de dados
     server: process.env.DB_SERVER, // Servidor do banco de dados
-    database: process.env.DB_NAME, // Nome do banco de dados
+    database: process.env.DB_DATABASE, // Nome do banco de dados
     options: {
         encrypt: true, // Criptografia para conexões seguras
         trustServerCertificate: true, // Confiança no certificado do servidor
