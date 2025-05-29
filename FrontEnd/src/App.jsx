@@ -1,12 +1,30 @@
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { HeaderU } from "./components/HeaderU";
 import { HomeU } from "./components/HomeU";
-import './global.css'
+import { LoginU } from "./components/LoginU";
+import { Cadastro } from "./components/Cadastro";
+import './global.css';
+
+function LayoutWithHeader() {
+  const location = useLocation();
+  const hideHeaderOnRoutes = ["/", "/cadastro"];
+
+  return (
+    <>
+      {!hideHeaderOnRoutes.includes(location.pathname) && <HeaderU />}
+      <Routes>
+        <Route path="/" element={<LoginU />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/home" element={<HomeU />} />
+      </Routes>
+    </>
+  );
+}
 
 export function App() {
   return (
-    <div>
-      <HeaderU />
-      <HomeU />
-    </div>
-  )
+    <Router>
+      <LayoutWithHeader />
+    </Router>
+  );
 }
