@@ -1,5 +1,7 @@
 export function HomeU(){
     return (
-        <h1>Controla Fácil</h1>
+        <div>
+        <h1>Controla Facil</h1>
+        </div>
     )
 }
