@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualização de Estoque - Minha Loja</title>
+    <link rel="stylesheet" href="../html/css/dashboard.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Admin Estoque</div>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="cadastro_produto.html">Produtos</a> 
+            <a href="#" class="active">Estoque</a>
+            <a href="#">Relatórios</a>
+            <a href="cadastro_parceiro.html">Parceiros</a> 
+            <a href="../html/cadastro_parceiro.html">Cadastrar Parceiro</a>
+        </nav>
+        <div class="user-profile">
+            <span>🔔</span>
+            <span>Olá, Admin!</span>
+        </div>
+    </header>
+
+    <main>
+        <h1>Visualização de Estoque</h1>
+
+        <section class="charts-section">
+            <div class="chart-container full-width-chart">
+                <h3>Quantidade de Itens em Estoque (Visão Geral)</h3>
+                <div class="chart-placeholder" id="stockBarChartPlaceholder">
+                    <!-- Gráfico de Barras iria aqui (requer JS e biblioteca de gráficos) -->
+                    <!-- Exemplo de como poderia ser populado dinamicamente ou estaticamente -->
+                    <p><strong>Produto A (SKU001):</strong> <span class="stock-bar" style="width: 80%; background-color: var(--primary-color);">80 un.</span></p>
+                    <p><strong>Produto B (SKU002):</strong> <span class="stock-bar" style="width: 50%; background-color: var(--primary-color);">50 un.</span></p>
+                    <p><strong>Tinta Impressora XPTO (TN001):</strong> <span class="stock-bar" style="width: 10%; background-color: var(--warning-color);">3 un. (Baixo)</span></p>
+                    <p><strong>Mouse Sem Fio ABC (MS005):</strong> <span class="stock-bar" style="width: 0%; background-color: var(--danger-color);">0 un. (Esgotado)</span></p>
+                    <p><strong>Teclado Gamer (TG002):</strong> <span class="stock-bar" style="width: 25%; background-color: var(--primary-color);">8 un.</span></p>
+                    <p><strong>Monitor LED 24" (MN007):</strong> <span class="stock-bar" style="width: 70%; background-color: var(--primary-color);">25 un.</span></p>
+                    <p><strong>Caderno 10 Matérias (CD010):</strong> <span class="stock-bar" style="width: 90%; background-color: var(--primary-color);">180 un.</span></p>
+                </div>
+                <div class="chart-legend">
+                    <span class="legend-item"><span class="legend-color" style="background-color: var(--primary-color);"></span> OK</span>
+                    <span class="legend-item"><span class="legend-color" style="background-color: var(--warning-color);"></span> Baixo</span>
+                    <span class="legend-item"><span class="legend-color" style="background-color: var(--danger-color);"></span> Esgotado</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="stock-table-section">
+            <h3>Detalhes do Estoque</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>SKU</th>
+                        <th>Qtd. Atual</th>
+                        <th>Preço Unit.</th>
+                        <th>Valor Total</th>
+                        <th>Nível Mínimo</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Caneta Azul</td>
+                        <td>SKU001</td>
+                        <td>80</td>
+                        <td>R$ 2,50</td>
+                        <td>R$ 200,00</td>
+                        <td>20</td>
+                        <td class="status-ok">OK</td>
+                    </tr>
+                    <tr>
+                        <td>Caderno 10 Mat.</td>
+                        <td>CD010</td>
+                        <td>180</td>
+                        <td>R$ 15,00</td>
+                        <td>R$ 2.700,00</td>
+                        <td>30</td>
+                        <td class="status-ok">OK</td>
+                    </tr>
+                    <tr>
+                        <td>Tinta Impressora XPTO</td>
+                        <td>TN001</td>
+                        <td>3</td>
+                        <td>R$ 45,00</td>
+                        <td>R$ 135,00</td>
+                        <td>5</td>
+                        <td class="status-baixo">Baixo</td>
+                    </tr>
+                    <tr>
+                        <td>Mouse Sem Fio ABC</td>
+                        <td>MS005</td>
+                        <td>0</td>
+                        <td>R$ 60,00</td>
+                        <td>R$ 0,00</td>
+                        <td>10</td>
+                        <td class="status-esgotado">Esgotado</td>
+                    </tr>
+                    <tr>
+                        <td>Teclado Gamer</td>
+                        <td>TG002</td>
+                        <td>8</td>
+                        <td>R$ 120,00</td>
+                        <td>R$ 960,00</td>
+                        <td>7</td>
+                        <td class="status-ok">OK (Próx. Mín)</td>
+                    </tr>
+                    <!-- Adicione mais produtos conforme necessário -->
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2023 MinhaLoja. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

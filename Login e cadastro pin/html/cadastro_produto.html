@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Produto - Minha Loja</title>
+    <link rel="stylesheet" href="../html/css/dashboard.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Admin Estoque</div>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="#" class="active">Produtos</a> 
+            <a href="estoque.html">Estoque</a>
+            <a href="#">Relatórios</a>
+            <a href="cadastro_parceiro.html">Parceiros</a> 
+            <a href="../html/cadastro_parceiro.html">Cadastrar Parceiro</a>
+        </nav>
+        <div class="user-profile">
+            <span>🔔</span>
+            <span>Olá, Admin!</span>
+        </div>
+    </header>
+
+    <main>
+        <h1>Cadastro de Novo Produto</h1>
+
+        <section class="form-section">
+            <form id="formCadastroProduto">
+                <div class="form-group">
+                    <label for="codigoProduto">Código do Produto (SKU)</label>
+                    <input type="text" id="codigoProduto" name="codigoProduto" required placeholder="Ex: SKU001">
+                </div>
+                <div class="form-group">
+                    <label for="nomeProduto">Nome do Produto</label>
+                    <input type="text" id="nomeProduto" name="nomeProduto" required placeholder="Ex: Caneta Azul Esferográfica">
+                </div>
+                <div class="form-group">
+                    <label for="quantidadeProduto">Quantidade em Estoque</label>
+                    <input type="number" id="quantidadeProduto" name="quantidadeProduto" required min="0" placeholder="Ex: 100">
+                </div>
+                <div class="form-group">
+                    <label for="precoProduto">Preço Unitário (R$)</label>
+                    <input type="number" id="precoProduto" name="precoProduto" step="0.01" min="0" placeholder="Ex: 2.50">
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                    <label for="nomeProduto">Descrição</label>
+                    <input type="text" id="nomeProduto" name="nomeProduto" required placeholder="Ex: Categoria, tipo e modelo">
+                <button type="submit" class="action-btn">Cadastrar Produto</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2023 MinhaLoja. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- <script>
+        // Futuramente, para lidar com o envio do formulário via JS
+        // document.getElementById('formCadastroProduto').addEventListener('submit', function(event) {
+        //     event.preventDefault();
+        //     // Lógica para coletar dados e enviar para o backend
+        //     alert('Produto cadastrado (simulação)!');
+        // });
+    </script> -->
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Estoque - Minha Loja</title>
+    <link rel="stylesheet" href="../html/css/dashboard.css">
+    <!-- Para ícones, poderia usar Font Awesome, mas usaremos texto por simplicidade -->
+</head>
+<body>
+    <header>
+        <div class="logo">Admin Estoque</div>
+        <nav>
+            <a href="../html/dashboard.html" class="active">Dashboard</a>
+            <a href="../html/cadastro_produto.html">Produtos</a> 
+            <a href="../html/estoque.html">Estoque</a> <!-- Fazer a tela para estoque-->
+            <a href="#">Relatórios</a> <!-- Não precisa ainda-->
+            <a href="../html/parceiros_cadastrados.html">Parceiros</a> <!--Precisa fazer-->
+            <a href="../html/cadastro_parceiro.html">Cadastrar Parceiro</a>
+        </nav>
+        <div class="user-profile">
+            <span>🔔</span> <!-- Ícone de notificação -->
+            <span>Olá, Admin!</span>
+        </div>
+    </header>
+
+    <main>
+        <h1>Dashboard de Estoque</h1>
+
+        <section class="kpi-section">
+            <div class="kpi-card">
+                <h2>Itens Totais</h2>
+                <p class="kpi-value">1.250</p>
+                <span class="kpi-icon">📦</span>
+            </div>
+            <div class="kpi-card warning">
+                <h2>Estoque Baixo</h2>
+                <p class="kpi-value">35</p>
+                <span class="kpi-icon">⚠️</span>
+                <a href="#" class="kpi-link">Ver Detalhes</a>
+            </div>
+            <div class="kpi-card danger">
+                <h2>Esgotados</h2>
+                <p class="kpi-value">12</p>
+                <span class="kpi-icon">🚫</span>
+                <a href="#" class="kpi-link">Ver Detalhes</a>
+            </div>
+            <div class="kpi-card">
+                <h2>Valor do Estoque</h2>
+                <p class="kpi-value">R$ 75.820,00</p>
+                <span class="kpi-icon">💰</span>
+            </div>
+        </section>
+
+        <section class="charts-section">
+            <div class="chart-container">
+                <h3>Distribuição do Estoque</h3>
+                <div class="chart-placeholder" id="pieChartPlaceholder">
+                    <!-- Gráfico de Pizza/Donut iria aqui (requer JS e biblioteca de gráficos) -->
+                    <p>Em Estoque: 80%</p>
+                    <p>Estoque Baixo: 15%</p>
+                    <p>Esgotado: 5%</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3>Top 5 Produtos Mais Estocados</h3>
+                <div class="chart-placeholder" id="barChartTopStockPlaceholder">
+                    <!-- Gráfico de Barras iria aqui -->
+                    <p>Caneta Azul: 250 un.</p>
+                    <p>Caderno 10 Mat.: 180 un.</p>
+                    <p>Lápis Preto: 150 un.</p>
+                    <p>Borracha Branca: 120 un.</p>
+                    <p>Régua 30cm: 100 un.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="alerts-section">
+            <h3>Alertas e Ações Rápidas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>SKU</th>
+                        <th>Qtd. Atual</th>
+                        <th>Nível Mínimo</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tinta Impressora XPTO</td>
+                        <td>TN001</td>
+                        <td>3</td>
+                        <td>5</td>
+                        <td class="status-baixo">Baixo</td>
+                        <td><button class="action-btn">Repor</button></td>
+                    </tr>
+                    <tr>
+                        <td>Mouse Sem Fio ABC</td>
+                        <td>MS005</td>
+                        <td>0</td>
+                        <td>10</td>
+                        <td class="status-esgotado">Esgotado</td>
+                        <td><button class="action-btn urgent">Repor Urgente</button></td>
+                    </tr>
+                    <tr>
+                        <td>Teclado Gamer</td>
+                        <td>TG002</td>
+                        <td>8</td>
+                        <td>7</td>
+                        <td class="status-ok">OK (Próx. Mín)</td>
+                        <td><button class="action-btn">Monitorar</button></td>
+                    </tr>
+                     <tr>
+                        <td>Monitor LED 24"</td>
+                        <td>MN007</td>
+                        <td>25</td>
+                        <td>5</td>
+                        <td class="status-ok">OK</td>
+                        <td><button class="action-btn">Ver</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2023 MinhaLoja. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Scripts JS para gráficos (ex: Chart.js) iriam aqui -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <!-- <script src="scripts.js"></script> -->
+</body>
+</html>

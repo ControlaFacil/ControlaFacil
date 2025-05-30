@@ -1,0 +1,139 @@
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f2f5; /* Light grey background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center vertically if content is less than viewport height */
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.progress-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px; /* Space between progress and form */
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.step .circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-bottom: 8px; /* Space between circle and label */
+    border: 2px solid #ccc; /* Default border for inactive step */
+    background-color: #fff;
+}
+
+.step.active .circle {
+    background-color:  #5FC16C; /* Blue for active step */
+    border-color:  #5FC16C;
+}
+
+.step .label {
+    font-size: 14px;
+    color: #333;
+}
+
+.connector-line {
+    width: 100px; /* Adjust width as needed */
+    height: 2px;
+    background-color: #ccc;
+    margin: 0 15px; /* Space around the line */
+    position: relative;
+    top: -15px; /* Align with the center of the circles */
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 30px 40px; /* More horizontal padding */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 450px; /* Max width of the form */
+    box-sizing: border-box;
+}
+
+.form-container h1 {
+    font-size: 28px; /* Slightly larger title */
+    font-weight: 700;
+    color: #1c1c1e; /* Darker text for title */
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ced4da; /* Light grey border for inputs */
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #495057;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #0D6EFD; /* Blue border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 14px 20px;
+    background-color:  #5FC16C; /* Blue button */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 10px; /* Space above the button */
+}
+
+button[type="submit"]:hover {
+    background-color: #0b5ed7; /* Darker blue on hover */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 500px) {
+    .form-container {
+        padding: 25px;
+    }
+    .form-container h1 {
+        font-size: 24px;
+    }
+    .connector-line {
+        width: 60px;
+    }
+}

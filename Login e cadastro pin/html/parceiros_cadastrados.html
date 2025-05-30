@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parceiros Cadastrados - Minha Loja</title>
+    <link rel="stylesheet" href="../html/css/dashboard.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Admin Estoque</div>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="cadastro_produto.html">Produtos</a>
+            <a href="estoque.html">Estoque</a>
+            <a href="#">Relatórios</a>
+            <a href="parceiros_cadastrados.html" class="active">Parceiros</a> 
+            <a href="../html/cadastro_parceiro.html">Cadastrar Parceiro</a>
+        </nav>
+        <div class="user-profile">
+            <span>🔔</span>
+            <span>Olá, Admin!</span>
+        </div>
+    </header>
+
+    <main>
+        <h1>Parceiros Cadastrados</h1>
+
+        <div class="partner-view-container">
+            <section class="partner-list-section">
+                <h2>Lista de Parceiros</h2>
+                <p>Veja os detalhes ao lado.</p>
+                <ul id="listaDeParceiros" class="partner-list">
+                    <!-- Parceiros Fictícios Estáticos -->
+                    <li class="active">Alpha Suprimentos</li> <!-- Primeiro item ativo por padrão -->
+                    <li>Beta Soluções</li>
+                    <li>Transportadora Gama Express</li>
+                    <li>Delta Representações</li>
+                    <li>Cliente Omega Corp</li>
+                </ul>
+                 <p style="font-size: 0.8em; color: #777; margin-top: 1rem;">
+                    <em>Nota: A seleção dinâmica de detalhes requer JavaScript.</em>
+                </p>
+            </section>
+
+            <section id="detalhesParceiroCard" class="partner-details-section">
+                <h2>Detalhes do Parceiro</h2>
+                <div id="partnerInfo" class="partner-info-content">
+                    <!-- Dados Fictícios Estáticos do Primeiro Parceiro (Alpha Suprimentos) -->
+                    <p><strong>ID:</strong> <span>1</span></p>
+                    <p><strong>Razão Social:</strong> <span>Fornecedor Alpha LTDA</span></p>
+                    <p><strong>CNPJ:</strong> <span>11.222.333/0001-44</span></p>
+                    <p><strong>Nome Fantasia:</strong> <span>Alpha Suprimentos</span></p>
+                    <p><strong>Tipo:</strong> <span>Fornecedor</span></p>
+                    <p><strong>Email:</strong> <span>contato@alpha.com</span></p>
+                    <p><strong>Telefone:</strong> <span>(11) 98888-7777</span></p>
+                    <p><strong>ID Endereço (FK):</strong> <span>101</span></p>
+                    <p><strong>ID Usuário (FK):</strong> <span>1</span></p>
+                    <p><strong>Cadastrado em:</strong> <span>15/01/2023 10:30</span></p>
+                </div>
+                <!-- 
+                    Se nenhum parceiro fosse "pré-selecionado" para exibir detalhes, 
+                    você poderia usar uma mensagem como esta:
+                    <p id="noPartnerSelected" style="text-align: center; margin-top: 20px;">
+                        Detalhes do parceiro selecionado apareceriam aqui.
+                    </p> 
+                -->
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2023 MinhaLoja. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- NENHUM SCRIPT AQUI -->
+</body>
+</html>

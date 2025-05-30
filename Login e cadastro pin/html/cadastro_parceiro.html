@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Parceiro - Minha Loja</title>
+    <link rel="stylesheet" href="../html/css/dashboard.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Admin Estoque</div>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="cadastro_produto.html">Produtos</a>
+            <a href="estoque.html">Estoque</a>
+            <a href="#">Relatórios</a>
+            <a href="../html/parceiros_cadastrados.html" class="active">Parceiros</a>
+            <a href="../html/cadastro_parceiro.html">Cadastrar Parceiro</a>
+        </nav>
+        <div class="user-profile">
+            <span>🔔</span>
+            <span>Olá, Admin!</span>
+        </div>
+    </header>
+
+    <main>
+        <h1>Cadastro de Novo Parceiro</h1>
+
+        <section class="form-section">
+            <form id="formCadastroParceiro">
+                <div class="form-group">
+                    <label for="razaoSocial">Razão Social*</label>
+                    <input type="text" id="razaoSocial" name="razaoSocial" required placeholder="Nome legal da empresa">
+                </div>
+
+                <div class="form-group">
+                    <label for="cnpj">CNPJ*</label>
+                    <input type="text" id="cnpj" name="cnpj" required placeholder="00.000.000/0000-00" maxlength="18" pattern="\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2}" title="Digite um CNPJ válido (somente números ou formato XX.XXX.XXX/XXXX-XX)">
+                </div>
+
+                <div class="form-group">
+                    <label for="nomeParceiro">Nome Fantasia (Opcional)</label>
+                    <input type="text" id="nomeParceiro" name="nomeParceiro" placeholder="Nome comercial ou de fachada">
+                </div>
+
+                <div class="form-group">
+                    <label for="tipoParceiro">Tipo de Parceiro*</label>
+                    <select id="tipoParceiro" name="tipoParceiro" required>
+                        <option value="" disabled selected>Selecione o tipo</option>
+                        <option value="Fornecedor">Fornecedor</option>
+                        <option value="Cliente">Cliente</option>
+                        <option value="Transportadora">Transportadora</option>
+                        <option value="Representante">Representante</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email (Opcional)</label>
+                    <input type="email" id="email" name="email" placeholder="contato@parceiro.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefone">Telefone (Opcional)</label>
+                    <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000">
+                </div>
+
+                <!-- 
+                    Campos como 'id', 'endereco (FK)', 'idUsuario (FK)' e 'criadoEm' 
+                    normalmente não são preenchidos diretamente pelo usuário neste formulário:
+                    - 'id': Gerado pelo banco de dados.
+                    - 'endereco': Poderia ser um conjunto de campos de endereço (CEP, Rua, Número, etc.) 
+                                  ou um seletor para um endereço já cadastrado. Para simplificar, 
+                                  estamos omitindo aqui, mas você adicionaria os campos de endereço se necessário.
+                    - 'idUsuario': Poderia ser o usuário logado ou um seletor. Omitido por simplicidade.
+                    - 'criadoEm': Gerado automaticamente pelo sistema/banco.
+                -->
+
+                <button type="submit" class="action-btn" onclick="redirecionarParaParceiro()">Cadastrar Parceiro</button>
+
+<script>
+  function redirecionarParaParceiro() {
+    window.location.href = '../html/parceiros_cadastrados.html'; // Substitua 'pagina-parceiro.html' pelo nome do seu arquivo HTML
+  }
+</script>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2023 MinhaLoja. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- <script>
+        // Futuramente, para lidar com o envio do formulário via JS
+        // e talvez máscaras para CNPJ e Telefone
+        // document.getElementById('formCadastroParceiro').addEventListener('submit', function(event) {
+        //     event.preventDefault();
+        //     // Lógica para coletar dados e enviar para o backend
+        //     alert('Parceiro cadastrado (simulação)!');
+        // });
+    </script> -->
+</body>
+</html>
