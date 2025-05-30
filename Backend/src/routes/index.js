@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-// Rota de teste simples
-router.get('/ping', (req, res) => {
-    res.json({ message: 'Servidor funcionando ✅' });
-});
+const usuarioRoutes = require('./usuarioRoutes');
+const enderecoRoutes = require('./enderecoRoutes');
+
+router.use(usuarioRoutes);
+router.use(enderecoRoutes);
 
 module.exports = router;
