@@ -53,6 +53,15 @@ const usuarioModel = {
 
         return result.recordset.length > 0;
     },
+
+    async existeId(id) {
+        await poolConnect;
+        const result = await pool.request()
+            .input('id', sql.Int, id)
+            .query('SELECT 1 AS existe FROM Usuario WHERE id = @id');
+
+        return result.recordset.length > 0; // Retorna true se existir, false caso contrário
+    }
 }
 
 module.exports = usuarioModel;

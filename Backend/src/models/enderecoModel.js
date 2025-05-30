@@ -20,12 +20,38 @@ const enderecoModel = {
                     VALUES (@rua, @numero, @bairro, @cidade, @estado, @cep, @complemento)
                 `);
 
-                return result.recordset[0]; // Retorna o endereço inserido
+            return result.recordset[0]; // Retorna o endereço inserido
         } catch (error) {
             console.error('Erro ao inserir endereço:', error);
             throw new Error('Erro ao inserir endereço: ' + error);
         }
 
+    },
+
+    async vincularUsuario({ idUsuario, idEndereco }) {
+        await poolConnect;
+
+        try {
+            await pool.request()
+                .input("idUsuario", sql.Int, idUsuario)
+                .input("idEndereco", sql.Int, idEndereco)
+                .query(`
+                    INSERT INTO Vinculo_Usuario_Endereco (idUsuario, idEndereco)
+                    VALUES (@idUsuario, @idEndereco)
+                `);
+        } catch (error) {
+            console.error('Erro ao vincular endereço ao usuário:', error);
+            throw new Error('Erro ao vincular endereço ao usuário: ' + error);
+        }
+    },
+
+    async existeId(id) {
+        await poolConnect;
+        const result = await pool.request()
+            .input('id', sql.Int, id)
+            .query('SELECT 1 AS existe FROM Endereco WHERE id = @id');
+            
+        return result.recordset.length > 0; // Retorna true se existir, false caso contrário
     }
 }
 
