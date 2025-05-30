@@ -18,19 +18,25 @@ const usuarioController = {
             // Verificar se o CNPJ já existe
             const cnpjExiste = await Usuario.existeCnpj(cnpj)
             if (cnpjExiste) {
-                return res.status(400).json({ error: 'CNPJ já cadastrado' });
+                return res.status(400).json({
+                    error: 'CNPJ já cadastrado',
+                    sucesso: false
+                });
             }
 
             // Verificar se o email já existe
             const emailExiste = await Usuario.existeEmail(email);
             if (emailExiste) {
-                return res.status(400).json({ error: 'Email já cadastrado' });
+                return res.status(400).json({
+                    error: 'Email já cadastrado',
+                    sucesso: false
+                });
             }
 
             const senhaHash = await gerarHash(senha);
 
             // Chamar método do modelo para inserir o usuário
-            await Usuario.inserir({
+            const usuarioCadastrado = await Usuario.inserir({
                 cnpj,
                 razaoSocial,
                 apelidoEmpresa,
@@ -39,10 +45,18 @@ const usuarioController = {
                 senhaHash
             });
 
-            return res.status(201).json({ message: 'Usuário inserido com sucesso' });
+            return res.status(201).json({
+                message: 'Usuário inserido com sucesso',
+                idUsuario: usuarioCadastrado,
+                sucesso: true
+            });
         } catch (error) {
             console.error('Erro ao inserir usuário:', error);
-            return res.status(500).json({ error: 'Erro ao inserir usuário', message: error.message });
+            return res.status(500).json({
+                error: 'Erro ao inserir usuário',
+                message: error.message,
+                sucesso: false
+            });
         }
     },
 

@@ -6,18 +6,27 @@ const usuarioModel = {
     // Inserir Usuario
     async inserir({ cnpj, razaoSocial, apelidoEmpresa, email, telefone, senhaHash }) {
         await poolConnect;
-        await pool.request()
-            .input('cnpj', cnpj) // Nome do parâmetro e valor vindo do código
-            .input('razaoSocial', razaoSocial)
-            .input('apelidoEmpresa', apelidoEmpresa || null) // Se apelidoEmpresa for opcional, pode ser null
-            .input('email', email)
-            .input('telefone', telefone || null) // Se telefone for opcional, pode ser null
-            .input('senhaHash', senhaHash)
-            .query(`
+
+        try {
+            const result = await pool.request()
+                .input('cnpj', cnpj) // Nome do parâmetro e valor vindo do código
+                .input('razaoSocial', razaoSocial)
+                .input('apelidoEmpresa', apelidoEmpresa || null) // Se apelidoEmpresa for opcional, pode ser null
+                .input('email', email)
+                .input('telefone', telefone || null) // Se telefone for opcional, pode ser null
+                .input('senhaHash', senhaHash)
+                .query(`
                 INSERT INTO Usuario (cnpj, razaoSocial, apelidoEmpresa, email, telefone, senhaHash)
-                VALUES
-                (@cnpj, @razaoSocial, @apelidoEmpresa, @email, @telefone, @senhaHash)
+                OUTPUT INSERTED.idUsuario, INSERTED.cnpj, INSERTED.razaoSocial, INSERTED.apelidoEmpresa, INSERTED.email, INSERTED.telefone
+                VALUES (@cnpj, @razaoSocial, @apelidoEmpresa, @email, @telefone, @senhaHash)
             `)
+
+            return result.recordset[0];
+        } catch (error) {
+            console.error('Erro ao inserir usuário:', error);
+            throw new Error('Erro ao inserir usuário: ' + error);
+        }
+
     },
 
     async buscarPorEmail(email) {
