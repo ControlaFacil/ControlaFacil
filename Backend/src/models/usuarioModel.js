@@ -17,7 +17,7 @@ const usuarioModel = {
                 .input('senhaHash', senhaHash)
                 .query(`
                 INSERT INTO Usuario (cnpj, razaoSocial, apelidoEmpresa, email, telefone, senhaHash)
-                OUTPUT INSERTED.idUsuario, INSERTED.cnpj, INSERTED.razaoSocial, INSERTED.apelidoEmpresa, INSERTED.email, INSERTED.telefone
+                OUTPUT INSERTED.id, INSERTED.cnpj, INSERTED.razaoSocial, INSERTED.apelidoEmpresa, INSERTED.email, INSERTED.telefone
                 VALUES (@cnpj, @razaoSocial, @apelidoEmpresa, @email, @telefone, @senhaHash)
             `)
 
