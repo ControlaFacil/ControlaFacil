@@ -20,6 +20,14 @@ const usuarioModel = {
             `)
     },
 
+    async buscarPorEmail(email) {
+        await poolConnect;
+        const result = await pool.request()
+            .input('email', email)
+            .query(`SELECT * FROM USUARIO where email = @email`);
+        return result.recordset[0];
+    },
+
     async existeCnpj(cnpj) {
         await poolConnect;
         const result = await pool.request()

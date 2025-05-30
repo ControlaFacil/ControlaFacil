@@ -10,4 +10,10 @@ const usuarioController = require('../controllers/usuarioController');
  */
 router.post('/usuarios', usuarioController.inserirUsuario)
 
+/**
+ * Rota POST para login de usuário
+ * Endpoint: http://localhost:5000/api/usuarios/login
+ */
+router.post ('/usuarios/login', usuarioController.login);
+
 module.exports = router;
