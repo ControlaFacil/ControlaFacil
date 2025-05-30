@@ -3,6 +3,7 @@
     --greenControlafacil: #5FC16C;
     --white: #FFFFFF;
     --black: #000000;
+    --gelo: #f8f9fb;
 }
 
 * {
@@ -12,7 +13,7 @@
 }
 
 body {
-    background: var(--white);
+    background: var(--gelo);
     color: var(--black);
     -webkit-font-smoothing: antialiased;
 }
