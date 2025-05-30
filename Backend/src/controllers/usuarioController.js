@@ -14,6 +14,18 @@ const usuarioController = {
         }
 
         try {
+            // Verificar se o CNPJ já existe
+            const cnpjExiste = await Usuario.existeCnpj(cnpj)
+            if( cnpjExiste ) {
+                return res.status(400).json({ error: 'CNPJ já cadastrado' });
+            }
+
+            // Verificar se o email já existe
+            const emailExiste = await Usuario.existeEmail(email);
+            if (emailExiste) {
+                return res.status(400).json({ error: 'Email já cadastrado' });
+            }
+
             const senhaHash = await gerarHash(senha);
 
             // Chamar método do modelo para inserir o usuário

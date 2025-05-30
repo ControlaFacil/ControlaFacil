@@ -18,7 +18,24 @@ const usuarioModel = {
                 VALUES
                 (@cnpj, @razaoSocial, @apelidoEmpresa, @email, @telefone, @senhaHash)
             `)
-    }
+    },
+
+    async existeCnpj(cnpj) {
+        await poolConnect;
+        const result = await pool.request()
+            .input('cnpj', sql.VarChar, cnpj)
+            .query('SELECT 1 AS existe from Usuario WHERE cnpj = @cnpj');
+        return result.recordset.length > 0; // Retorna true se existir, false caso contrário
+    },
+
+    async existeEmail(email) {
+        await poolConnect;
+        const result = await pool.request()
+            .input('email', sql.VarChar, email)
+            .query('SELECT 1 AS existe FROM Usuario WHERE email = @email');
+
+        return result.recordset.length > 0;
+    },
 }
 
 module.exports = usuarioModel;
