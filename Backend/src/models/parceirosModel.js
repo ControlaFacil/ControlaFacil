@@ -30,8 +30,40 @@ const parceirosModel = {
         const result = await pool.request()
             .input('id', sql.Int, id)
             .query('SELECT 1 AS existe FROM Parceiro WHERE id = @id');
-            
+
         return result.recordset.length > 0; // Retorna true se existir, false caso contrário
+    },
+
+    async listarParceiros() { 
+        await poolConnect;
+        try {
+            const result = await pool.request()
+                .query(`
+                    SELECT id, cnpj, razaoSocial, tipoParceiro, nomeFantasia, email, telefone, criadoEm, idUsuario as criadoPor
+                    FROM Parceiro
+                `)
+            return result.recordset;
+        } catch (error) {
+            console.error('Erro ao listar parceiros:', error);
+            throw new Error('Erro ao listar parceiros: ' + error);
+        }
+    },
+
+    async buscarPorId(id) {
+        await poolConnect;
+        try {
+            const result = await pool.request()
+                .input('id', sql.Int, id)
+                .query(`
+                        SELECT id, cnpj, razaoSocial, tipoParceiro, nomeFantasia, email, telefone, criadoEm, idUsuario as criadoPor
+	                    FROM Parceiro 
+	                    WHERE id = @id
+                    `)
+            return result.recordset[0];
+        } catch (error) {
+            console.error('Erro ao buscar parceiro por ID:', error);
+            throw new Error('Erro ao buscar parceiro por ID: ' + error);
+        }
     }
 }
 

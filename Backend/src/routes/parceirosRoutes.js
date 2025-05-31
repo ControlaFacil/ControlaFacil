@@ -81,4 +81,97 @@ const parceirosController = require('../controllers/parceirosController');
  */
 router.post('/parceiros', parceirosController.cadastrar);
 
+/**
+ * @swagger
+ * /api/parceiros:
+ *   get:
+ *     summary: Lista todos os parceiros
+ *     tags: [Parceiros]
+ *     responses:
+ *       200:
+ *         description: Lista de parceiros retornada com sucesso
+ *         content:
+ *           application/json:
+ *             example:
+ *               quantidade: 2
+ *               data:
+ *                 - id: 1
+ *                   razaoSocial: "João LTDA"
+ *                   cnpj: "12345678000100"
+ *                   tipoParceiro: "Fornecedor"
+ *                   nomeFantasia: "Empresa João"
+ *                   email: "joao@email.com"
+ *                   telefone: "11988887777"
+ *                 - id: 2
+ *                   razaoSocial: "Maria ME"
+ *                   cnpj: "98765432000100"
+ *                   tipoParceiro: "Cliente"
+ *                   nomeFantasia: "Empresa Maria"
+ *                   email: "maria@email.com"
+ *                   telefone: "11988887778"
+ *               sucesso: true
+ *       500:
+ *         description: Erro ao listar parceiros
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Erro ao listar parceiros
+ *               message: "Mensagem detalhada do erro"
+ *               sucesso: false
+ */
+router.get('/parceiros', parceirosController.listarParceiros);
+
+/**
+ * @swagger
+ * /api/parceiros/{id}:
+ *   get:
+ *     summary: Busca um parceiro pelo ID
+ *     tags: [Parceiros]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do parceiro
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: Parceiro encontrado com sucesso
+ *         content:
+ *           application/json:
+ *             example:
+ *               id: 1
+ *               razaoSocial: "João LTDA"
+ *               cnpj: "12345678000100"
+ *               tipoParceiro: "Fornecedor"
+ *               nomeFantasia: "Empresa João"
+ *               email: "joao@email.com"
+ *               telefone: "11988887777"
+ *               sucesso: true
+ *       400:
+ *         description: ID não informado
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: ID não informado
+ *               sucesso: false
+ *       404:
+ *         description: Parceiro não encontrado
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Parceiro não encontrado
+ *               sucesso: false
+ *       500:
+ *         description: Erro ao buscar parceiro
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Erro ao buscar parceiro
+ *               message: "Mensagem detalhada do erro"
+ *               sucesso: false
+ */
+router.get('/parceiros/:id', parceirosController.buscarPorId);
+
 module.exports = router;
