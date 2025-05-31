@@ -70,7 +70,7 @@ const enderecoController = {
 
             // Vincula o endereço ao usuário
             await Endereco.vincularUsuario({ idUsuario, idEndereco });
-            
+
             return res.status(201).json({
                 message: 'Endereço vinculado ao usuário com sucesso',
                 sucesso: true
@@ -87,12 +87,12 @@ const enderecoController = {
     },
 
     async vincularParceiro(req, res) {
-        const {idParceiro, idEndereco} = req.body;
+        const { idParceiro, idEndereco } = req.body;
 
         if (!idParceiro || !idEndereco) {
             return res.status(400).json({ error: 'Dados obrigatórios não foram preenchidos', sucesso: false });
         }
-        
+
         try {
             const parceiroExiste = await Parceiro.existeId(idParceiro);
             if (!parceiroExiste) {
@@ -100,7 +100,7 @@ const enderecoController = {
                     error: 'Parceiro não encontrado',
                     sucesso: false
                 });
-            } 
+            }
 
             const enderecoExiste = await Endereco.existeId(idEndereco);
             if (!enderecoExiste) {
@@ -120,6 +120,65 @@ const enderecoController = {
             console.error('Erro ao vincular endereço ao parceiro:', error);
             return res.status(500).json({
                 error: 'Erro ao vincular endereço ao parceiro',
+                message: error.message,
+                sucesso: false
+            });
+        }
+    },
+
+    async listarEnderecos(req, res) {
+        try {
+            const enderecos = await Endereco.listarTodos();
+
+            if (enderecos.length === 0) {
+                return res.status(404).json({
+                    message: 'Nenhum endereço encontrado',
+                    sucesso: true
+                });
+            }
+
+            return res.status(200).json({
+                message: 'Endereços listados com sucesso',
+                enderecos: enderecos,
+                sucesso: true
+            });
+
+        } catch (error) {
+            console.error('Erro ao listar endereços:', error);
+            return res.status(500).json({
+                error: 'Erro ao listar endereços',
+                message: error.message,
+                sucesso: false
+            });
+        }
+    },
+
+    async buscarPorId(req, res) {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ error: 'ID é obrigatório', sucesso: false });
+        }
+
+        try {
+            const endereco = await Endereco.buscarPorId(id);
+
+            if (!endereco) {
+                return res.status(404).json({
+                    error: 'Endereço não encontrado',
+                    sucesso: false
+                });
+            }
+
+            return res.status(200).json({
+                message: 'Endereço encontrado',
+                endereco: endereco,
+                sucesso: true
+            })
+        } catch (error) {
+            console.error('Erro ao buscar endereço por ID:', error);
+            return res.status(500).json({
+                error: 'Erro ao buscar endereço por ID',
                 message: error.message,
                 sucesso: false
             });
