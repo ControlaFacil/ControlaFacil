@@ -45,6 +45,24 @@ const enderecoModel = {
         }
     },
 
+    async vincularParceiro({idParceiro, idEndereco}){
+        await poolConnect;
+
+        try{
+            await pool.request()
+                .input("idParceiro", sql.Int, idParceiro)
+                .input("idEndereco", sql.Int, idEndereco)
+                .query(`
+                    INSERT INTO Vinculo_Parceiro_Endereco (idParceiro, idEndereco)
+                    VALUES (@idParceiro, @idEndereco)
+                `);
+        }
+        catch (error) {
+            console.error('Erro ao vincular endereço ao parceiro:', error);
+            throw new Error('Erro ao vincular endereço ao parceiro: ' + error);
+        }
+    },
+
     async existeId(id) {
         await poolConnect;
         const result = await pool.request()
