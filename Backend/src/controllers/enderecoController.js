@@ -183,8 +183,70 @@ const enderecoController = {
                 sucesso: false
             });
         }
-    }
+    },
 
+    async buscarPorUsuarioId(req, res) {
+        const { idUsuario } = req.params;
+        if (!idUsuario) {
+            return res.status(400).json({ error: 'ID do usuário é obrigatório', sucesso: false });
+        }
+
+        try {
+            const enderecos = await Endereco.buscarPorUsuarioId(idUsuario);
+
+            if (enderecos.length === 0) {
+                return res.status(404).json({
+                    message: 'Nenhum endereço encontrado para este usuário',
+                    sucesso: false
+                });
+            }
+
+            return res.status(200).json({
+                message: 'Endereços encontrados para o usuário',
+                enderecos: enderecos,
+                sucesso: true
+            });
+        }
+        catch (error) {
+            console.error('Erro ao buscar endereços por ID de usuário:', error);
+            return res.status(500).json({
+                error: 'Erro ao buscar endereços por ID de usuário',
+                message: error.message,
+                sucesso: false
+            });
+        }
+    },
+
+    async buscarPorParceiroId(req, res) {
+        const { idParceiro } = req.params;
+        if (!idParceiro) {
+            return res.status(400).json({ error: 'ID do parceiro é obrigatório', sucesso: false });
+        }
+
+        try {
+            const enderecos = await Endereco.buscarPorParceiroId(idParceiro);
+
+            if (enderecos.length === 0) {
+                return res.status(404).json({
+                    message: 'Nenhum endereço encontrado para este parceiro',
+                    sucesso: false
+                });
+            }
+
+            return res.status(200).json({
+                message: 'Endereços encontrados para o parceiro',
+                enderecos: enderecos,
+                sucesso: true
+            });
+        } catch (error) {
+            console.error('Erro ao buscar endereços por ID de parceiro:', error);
+            return res.status(500).json({
+                error: 'Erro ao buscar endereços por ID de parceiro',
+                message: error.message,
+                sucesso: false
+            });
+        }
+    }
 }
 
 module.exports = enderecoController;

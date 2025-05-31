@@ -307,4 +307,132 @@ router.get('/endereco', enderecoController.listarEnderecos);
  */
 router.get('/endereco/:id', enderecoController.buscarPorId);
 
+/**
+ * @swagger
+ * /api/endereco/usuario/{idUsuario}:
+ *   get:
+ *     summary: Lista todos os endereços vinculados a um usuário
+ *     tags: [Endereços]
+ *     parameters:
+ *       - in: path
+ *         name: idUsuario
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do usuário
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: Lista de endereços do usuário retornada com sucesso
+ *         content:
+ *           application/json:
+ *             example:
+ *               quantidade: 2
+ *               data:
+ *                 - id: 1
+ *                   rua: "Rua das Flores"
+ *                   numero: "123"
+ *                   bairro: "Centro"
+ *                   cidade: "São Paulo"
+ *                   estado: "SP"
+ *                   cep: "01001-000"
+ *                   complemento: "Apto 45"
+ *                 - id: 2
+ *                   rua: "Av. Brasil"
+ *                   numero: "456"
+ *                   bairro: "Jardim"
+ *                   cidade: "Rio de Janeiro"
+ *                   estado: "RJ"
+ *                   cep: "20040-002"
+ *                   complemento: ""
+ *               sucesso: true
+ *       400:
+ *         description: ID do usuário não informado
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: ID do usuário não informado
+ *               sucesso: false
+ *       404:
+ *         description: Usuário ou endereços não encontrados
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Usuário ou endereços não encontrados
+ *               sucesso: false
+ *       500:
+ *         description: Erro ao buscar endereços do usuário
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Erro ao buscar endereços do usuário
+ *               message: "Mensagem detalhada do erro"
+ *               sucesso: false
+ */
+router.get('/endereco/usuario/:idUsuario', enderecoController.buscarPorUsuarioId);
+
+/**
+ * @swagger
+ * /api/endereco/parceiro/{idParceiro}:
+ *   get:
+ *     summary: Lista todos os endereços vinculados a um parceiro
+ *     tags: [Endereços]
+ *     parameters:
+ *       - in: path
+ *         name: idParceiro
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do parceiro
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: Lista de endereços do parceiro retornada com sucesso
+ *         content:
+ *           application/json:
+ *             example:
+ *               quantidade: 2
+ *               data:
+ *                 - id: 1
+ *                   rua: "Rua das Flores"
+ *                   numero: "123"
+ *                   bairro: "Centro"
+ *                   cidade: "São Paulo"
+ *                   estado: "SP"
+ *                   cep: "01001-000"
+ *                   complemento: "Apto 45"
+ *                 - id: 2
+ *                   rua: "Av. Brasil"
+ *                   numero: "456"
+ *                   bairro: "Jardim"
+ *                   cidade: "Rio de Janeiro"
+ *                   estado: "RJ"
+ *                   cep: "20040-002"
+ *                   complemento: ""
+ *               sucesso: true
+ *       400:
+ *         description: ID do parceiro não informado
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: ID do parceiro não informado
+ *               sucesso: false
+ *       404:
+ *         description: Parceiro ou endereços não encontrados
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Parceiro ou endereços não encontrados
+ *               sucesso: false
+ *       500:
+ *         description: Erro ao buscar endereços do parceiro
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Erro ao buscar endereços do parceiro
+ *               message: "Mensagem detalhada do erro"
+ *               sucesso: false
+ */
+router.get('/endereco/parceiro/:idParceiro', enderecoController.buscarPorParceiroId)
+
 module.exports = router;

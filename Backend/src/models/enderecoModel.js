@@ -74,7 +74,7 @@ const enderecoModel = {
 
     async listarTodos() {
         await poolConnect;
-        try{
+        try {
             const result = await pool.request()
                 .query('SELECT * FROM Endereco');
 
@@ -97,6 +97,43 @@ const enderecoModel = {
         } catch (error) {
             console.error('Erro ao buscar endereço por ID:', error);
             throw new Error('Erro ao buscar endereço por ID: ' + error);
+        }
+    },
+
+    async buscarPorUsuarioId(idUsuario) {
+        await poolConnect;
+        try {
+            const result = await pool.request()
+                .input('idUsuario', sql.Int, idUsuario)
+                .query(`
+                    SELECT e.* 
+                    FROM Endereco e
+                    INNER JOIN Vinculo_Usuario_Endereco vue ON vue.idEndereco = e.id
+                    WHERE vue.idUsuario = @idUsuario
+                `);
+            return result.recordset;
+        } catch (error) {
+            console.error('Erro ao buscar endereço por ID de usuário:', error);
+            throw new Error('Erro ao buscar endereço por ID de usuário: ' + error);
+        }
+    },
+
+    async buscarPorParceiroId(idParceiro) {
+        await poolConnect;
+        try {
+            const result = await pool.request()
+                .input('idParceiro', sql.Int, idParceiro)
+                .query(`
+                        SELECT e.* 
+                        FROM Endereco e
+                        INNER JOIN Vinculo_Parceiro_Endereco vpe ON vpe.idEndereco= e.id
+                        WHERE vpe.idParceiro = 1
+                    `)
+            return result.recordset;
+        }
+        catch (error) {
+            console.error('Erro ao buscar endereço por ID de parceiro:', error);
+            throw new Error('Erro ao buscar endereço por ID de parceiro: ' + error);
         }
     }
 }
