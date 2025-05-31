@@ -211,4 +211,100 @@ router.post('/endereco/vincular-usuario', enderecoController.vincularUsuario);
  */
 router.post('/endereco/vincular-parceiro', enderecoController.vincularParceiro);
 
+/**
+ * @swagger
+ * /api/endereco:
+ *   get:
+ *     summary: Lista todos os endereços
+ *     tags: [Endereços]
+ *     responses:
+ *       200:
+ *         description: Lista de endereços retornada com sucesso
+ *         content:
+ *           application/json:
+ *             example:
+ *               quantidade: 2
+ *               data:
+ *                 - id: 1
+ *                   rua: "Rua das Flores"
+ *                   numero: "123"
+ *                   bairro: "Centro"
+ *                   cidade: "São Paulo"
+ *                   estado: "SP"
+ *                   cep: "01001-000"
+ *                   complemento: "Apto 45"
+ *                 - id: 2
+ *                   rua: "Av. Brasil"
+ *                   numero: "456"
+ *                   bairro: "Jardim"
+ *                   cidade: "Rio de Janeiro"
+ *                   estado: "RJ"
+ *                   cep: "20040-002"
+ *                   complemento: ""
+ *               sucesso: true
+ *       500:
+ *         description: Erro ao listar endereços
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Erro ao listar endereços
+ *               message: "Mensagem detalhada do erro"
+ *               sucesso: false
+ */
+router.get('/endereco', enderecoController.listarEnderecos);
+
+/**
+ * @swagger
+ * /api/endereco/{id}:
+ *   get:
+ *     summary: Busca um endereço pelo ID
+ *     tags: [Endereços]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do endereço
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: Endereço encontrado com sucesso
+ *         content:
+ *           application/json:
+ *             example:
+ *               id: 1
+ *               rua: "Rua das Flores"
+ *               numero: "123"
+ *               bairro: "Centro"
+ *               cidade: "São Paulo"
+ *               estado: "SP"
+ *               cep: "01001-000"
+ *               complemento: "Apto 45"
+ *               sucesso: true
+ *       400:
+ *         description: ID não informado
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: ID não informado
+ *               sucesso: false
+ *       404:
+ *         description: Endereço não encontrado
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Endereço não encontrado
+ *               sucesso: false
+ *       500:
+ *         description: Erro ao buscar endereço
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Erro ao buscar endereço
+ *               message: "Mensagem detalhada do erro"
+ *               sucesso: false
+ */
+router.get('/endereco/:id', enderecoController.buscarPorId);
+
 module.exports = router;

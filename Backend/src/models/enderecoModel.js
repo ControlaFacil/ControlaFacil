@@ -45,10 +45,10 @@ const enderecoModel = {
         }
     },
 
-    async vincularParceiro({idParceiro, idEndereco}){
+    async vincularParceiro({ idParceiro, idEndereco }) {
         await poolConnect;
 
-        try{
+        try {
             await pool.request()
                 .input("idParceiro", sql.Int, idParceiro)
                 .input("idEndereco", sql.Int, idEndereco)
@@ -68,8 +68,36 @@ const enderecoModel = {
         const result = await pool.request()
             .input('id', sql.Int, id)
             .query('SELECT 1 AS existe FROM Endereco WHERE id = @id');
-            
+
         return result.recordset.length > 0; // Retorna true se existir, false caso contrário
+    },
+
+    async listarTodos() {
+        await poolConnect;
+        try{
+            const result = await pool.request()
+                .query('SELECT * FROM Endereco');
+
+            return result.recordset;
+        }
+        catch (error) {
+            console.error('Erro ao listar endereços:', error);
+            throw new Error('Erro ao listar endereços: ' + error);
+        }
+    },
+
+    async buscarPorId(id) {
+        await poolConnect;
+        try {
+            const result = await pool.request()
+                .input('id', sql.Int, id)
+                .query('SELECT * FROM Endereco WHERE id = @id');
+
+            return result.recordset[0];
+        } catch (error) {
+            console.error('Erro ao buscar endereço por ID:', error);
+            throw new Error('Erro ao buscar endereço por ID: ' + error);
+        }
     }
 }
 
