@@ -101,6 +101,58 @@ const usuarioController = {
                 sucesso: false
             });
         }
+    },
+
+    async listarUsuarios() {
+        try {
+            const usuarios = await Usuario.listarUsuarios();
+
+            return {
+                quantidade: usuarios.length,
+                data: usuarios,
+                sucesso: true
+            };
+        }
+        catch (error) {
+            console.error('Erro ao listar usuários:', error);
+            return {
+                error: 'Erro ao listar usuários',
+                message: error.message,
+                sucesso: false
+            };
+        }
+    },
+
+    async buscarPorId(req, res) {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({ error: 'ID é obrigatório', sucesso: false });
+        }
+
+        try {
+            const usuario = await Usuario.buscarPorId(id);
+
+            if (!usuario) {
+                return res.status(404).json({
+                    error: 'Usuário não encontrado',
+                    sucesso: false
+                });
+            }
+
+            return res.status(200).json({
+                message: 'Usuário encontrado',
+                data: usuario,
+                sucesso: true
+            });
+        }
+        catch (error) {
+            console.error('Erro ao buscar usuário por ID:', error);
+            return res.status(500).json({
+                error: 'Erro ao buscar usuário por ID',
+                message: error.message,
+                sucesso: false
+            });
+        }
     }
 }
 

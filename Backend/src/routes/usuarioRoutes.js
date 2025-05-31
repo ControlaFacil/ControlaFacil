@@ -148,7 +148,96 @@ router.post('/usuarios', usuarioController.inserirUsuario)
  *       500:
  *         description: Erro interno ao fazer login
  */
-
 router.post ('/usuarios/login', usuarioController.login);
+
+/**
+ * @swagger
+ * /api/usuarios:
+ *   get:
+ *     summary: Lista todos os usuários
+ *     tags: [Usuários]
+ *     responses:
+ *       200:
+ *         description: Lista de usuários retornada com sucesso
+ *         content:
+ *           application/json:
+ *             example:
+ *               quantidade: 2
+ *               data:
+ *                 - id: 1
+ *                   cnpj: "12345678000100"
+ *                   razaoSocial: "Empresa João"
+ *                   apelidoEmpresa: "João LTDA"
+ *                   email: "joao@email.com"
+ *                   telefone: "11988887777"
+ *                 - id: 2
+ *                   cnpj: "98765432000100"
+ *                   razaoSocial: "Empresa Maria"
+ *                   apelidoEmpresa: "Maria ME"
+ *                   email: "maria@email.com"
+ *                   telefone: "11988887778"
+ *               sucesso: true
+ *       500:
+ *         description: Erro ao listar usuários
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Erro ao listar usuários
+ *               message: "Mensagem detalhada do erro"
+ *               sucesso: false
+ */
+router.get('/usuarios', usuarioController.listarUsuarios);
+
+/**
+ * @swagger
+ * /api/usuarios/{id}:
+ *   get:
+ *     summary: Busca um usuário pelo ID
+ *     tags: [Usuários]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do usuário
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: Usuário encontrado com sucesso
+ *         content:
+ *           application/json:
+ *             example:
+ *               id: 1
+ *               cnpj: "12345678000100"
+ *               razaoSocial: "Empresa João"
+ *               apelidoEmpresa: "João LTDA"
+ *               email: "joao@email.com"
+ *               telefone: "11988887777"
+ *               sucesso: true
+ *       400:
+ *         description: ID não informado
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: ID não informado
+ *               sucesso: false
+ *       404:
+ *         description: Usuário não encontrado
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Usuário não encontrado
+ *               sucesso: false
+ *       500:
+ *         description: Erro ao buscar usuário
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Erro ao buscar usuário
+ *               message: "Mensagem detalhada do erro"
+ *               sucesso: false
+ */
+router.get('/usuarios/:id', usuarioController.buscarPorId);
 
 module.exports = router;
