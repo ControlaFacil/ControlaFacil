@@ -29,6 +29,29 @@ const usuarioModel = {
 
     },
 
+    async listarUsuarios() {
+        await poolConnect;
+        const result = await pool.request()
+            .query("SELECT id, cnpj, email, telefone, razaoSocial, apelidoEmpresa FROM Usuario");
+
+        return result.recordset;
+    },
+
+    async buscarPorId(id) {
+        await poolConnect;
+        try {
+            const result = await pool.request()
+                .input('id', sql.Int, id)
+                .query(`SELECT id, cnpj, email, telefone, razaoSocial, apelidoEmpresa FROM Usuario WHERE id = @id`);
+
+            return result.recordset[0];
+        }
+        catch (error) {
+            console.error('Erro ao buscar usuário por ID:', error);
+            throw new Error('Erro ao buscar usuário por ID: ' + error);
+        }
+    },
+
     async buscarPorEmail(email) {
         await poolConnect;
         const result = await pool.request()

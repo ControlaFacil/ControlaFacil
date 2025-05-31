@@ -2,6 +2,7 @@
 
 const Endereco = require('../models/enderecoModel');
 const Usuario = require('../models/usuarioModel');
+const Parceiro = require('../models/parceirosModel');
 
 const enderecoController = {
     // cadastrar um novo endereço
@@ -85,6 +86,45 @@ const enderecoController = {
         }
     },
 
+    async vincularParceiro(req, res) {
+        const {idParceiro, idEndereco} = req.body;
+
+        if (!idParceiro || !idEndereco) {
+            return res.status(400).json({ error: 'Dados obrigatórios não foram preenchidos', sucesso: false });
+        }
+        
+        try {
+            const parceiroExiste = await Parceiro.existeId(idParceiro);
+            if (!parceiroExiste) {
+                return res.status(404).json({
+                    error: 'Parceiro não encontrado',
+                    sucesso: false
+                });
+            } 
+
+            const enderecoExiste = await Endereco.existeId(idEndereco);
+            if (!enderecoExiste) {
+                return res.status(404).json({
+                    error: 'Endereço não encontrado',
+                    sucesso: false
+                });
+            }
+
+            // Vincula o endereço ao parceiro
+            await Endereco.vincularParceiro({ idParceiro, idEndereco });
+            return res.status(201).json({
+                message: 'Endereço vinculado ao parceiro com sucesso',
+                sucesso: true
+            });
+        } catch (error) {
+            console.error('Erro ao vincular endereço ao parceiro:', error);
+            return res.status(500).json({
+                error: 'Erro ao vincular endereço ao parceiro',
+                message: error.message,
+                sucesso: false
+            });
+        }
+    }
 
 }
 

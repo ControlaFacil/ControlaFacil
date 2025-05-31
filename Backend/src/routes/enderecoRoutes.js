@@ -1,4 +1,16 @@
 const express = require('express');
+
+const router = express.Router(); // Cria um objeto router
+
+const enderecoController = require('../controllers/enderecoController');
+
+/**
+ * @swagger
+ * tags:
+ *   name: Endereços
+ *   description: API's para gerenciamento de endereços
+ */
+
 /**
  * @swagger
  * /api/endereco:
@@ -71,6 +83,7 @@ const express = require('express');
  *               message: "Mensagem detalhada do erro"
  *               sucesso: false
  */
+router.post('/endereco', enderecoController.cadastrar);
 
 /**
  * @swagger
@@ -133,13 +146,69 @@ const express = require('express');
  *               message: "Mensagem detalhada do erro"
  *               sucesso: false
  */
-
-const router = express.Router(); // Cria um objeto router
-
-const enderecoController = require('../controllers/enderecoController');
-
-router.post('/endereco', enderecoController.cadastrar);
-
 router.post('/endereco/vincular-usuario', enderecoController.vincularUsuario);
+
+/**
+ * @swagger
+ * /api/endereco/vincular-parceiro:
+ *   post:
+ *     summary: Vincula um endereço a um parceiro
+ *     tags: [Endereços]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idUsuario:
+ *                 type: integer
+ *                 example: 1
+ *               idEndereco:
+ *                 type: integer
+ *                 example: 2
+ *             required:
+ *               - idParceiro
+ *               - idEndereco
+ *     responses:
+ *       201:
+ *         description: Endereço vinculado ao Parceiro com sucesso
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Endereço vinculado ao Parceiro com sucesso
+ *               sucesso: true
+ *       400:
+ *         description: Dados obrigatórios não foram preenchidos
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Dados obrigatórios não foram preenchidos
+ *               sucesso: false
+ *       404:
+ *         description: Parceiro ou endereço não encontrado
+ *         content:
+ *           application/json:
+ *             examples:
+ *               UsuarioNaoEncontrado:
+ *                 summary: Parceiro não encontrado
+ *                 value:
+ *                   error: Parceiro não encontrado
+ *                   sucesso: false
+ *               EnderecoNaoEncontrado:
+ *                 summary: Endereço não encontrado
+ *                 value:
+ *                   error: Endereço não encontrado
+ *                   sucesso: false
+ *       500:
+ *         description: Erro ao vincular endereço ao parceiro
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Erro ao vincular endereço ao parceiro
+ *               message: "Mensagem detalhada do erro"
+ *               sucesso: false
+ */
+router.post('/endereco/vincular-parceiro', enderecoController.vincularParceiro);
 
 module.exports = router;
