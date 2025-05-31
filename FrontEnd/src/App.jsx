@@ -3,6 +3,7 @@ import { HeaderU } from "./components/HeaderU";
 import { HomeU } from "./components/HomeU";
 import { LoginU } from "./components/LoginU";
 import { Cadastro } from "./components/Cadastro";
+import { MeusDados } from "./components/MeusDados";
 import './global.css';
 
 function LayoutWithHeader() {
@@ -16,6 +17,7 @@ function LayoutWithHeader() {
         <Route path="/" element={<LoginU />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/home" element={<HomeU />} />
+        <Route path="/meus-dados" element={<MeusDados />} />
       </Routes>
     </>
   );

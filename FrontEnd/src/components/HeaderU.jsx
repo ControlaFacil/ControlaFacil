@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import styles from './style/HeaderU.module.css'
-import controlafacilIcone from '../assets/icone.controlafacil.pNg'
-import { User, Menu } from 'lucide-react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import styles from './style/HeaderU.module.css';
+import controlafacilIcone from '../assets/icone.controlafacil.png';
+import { User } from 'lucide-react';
 import { UserMenu } from './UserMenu';
 
 export function HeaderU() {
@@ -12,15 +13,31 @@ export function HeaderU() {
     }
 
     return (
-        <div>
-            <header className={styles.header}>
-                <Menu className={styles.menu} />
-                <img src={controlafacilIcone} alt="Icone Controla Fácil" />
-                <div className={styles.userArea}>
+        <header className={styles.header}>
+            <NavLink to="/home" className={styles.logoLink}>
+                <div className={styles.logo}>
+                    <img src={controlafacilIcone} alt="Logo" className={styles.logoImg} />
+                    <span>Controla Fácil</span>
+                </div>
+            </NavLink>
+
+            <nav className={styles.nav}>
+                <NavLink to="/dashboard" className={({ isActive }) => isActive ? styles.active : ''}>Dashboard</NavLink>
+                <NavLink to="/produtos">Produtos</NavLink>
+                <NavLink to="/estoque">Estoque</NavLink>
+                <NavLink to="#">Relatórios</NavLink>
+                <NavLink to="/parceiros">Parceiros</NavLink>
+                <NavLink to="/cadastrar-parceiro">Cadastrar Parceiro</NavLink>
+            </nav>
+
+            <div className={styles.userProfile}>
+                <span>🔔</span>
+                <span>Olá, Admin!</span>
+                <div className={styles.userWrapper}>
                     <User className={styles.user} onClick={toggleMenu} />
                     {isMenuOpen && <UserMenu />}
                 </div>
-            </header>
-        </div>
-    )
+            </div>
+        </header>
+    );
 }
