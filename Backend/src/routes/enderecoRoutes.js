@@ -1,4 +1,16 @@
 const express = require('express');
+
+const router = express.Router(); // Cria um objeto router
+
+const enderecoController = require('../controllers/enderecoController');
+
+/**
+ * @swagger
+ * tags:
+ *   name: Endereços
+ *   description: API's para gerenciamento de endereços
+ */
+
 /**
  * @swagger
  * /api/endereco:
@@ -71,6 +83,7 @@ const express = require('express');
  *               message: "Mensagem detalhada do erro"
  *               sucesso: false
  */
+router.post('/endereco', enderecoController.cadastrar);
 
 /**
  * @swagger
@@ -133,13 +146,6 @@ const express = require('express');
  *               message: "Mensagem detalhada do erro"
  *               sucesso: false
  */
-
-const router = express.Router(); // Cria um objeto router
-
-const enderecoController = require('../controllers/enderecoController');
-
-router.post('/endereco', enderecoController.cadastrar);
-
 router.post('/endereco/vincular-usuario', enderecoController.vincularUsuario);
 
 module.exports = router;
