@@ -10,6 +10,10 @@ app.use(cors());
 // Permite que o backend receba JSON no corpo da requisição
 app.use(express.json());
 
+app.get('/', (req, res) => {
+    res.send('API está rodando! 🚀');
+});
+
 // Define o prefixo das rotas
 app.use('/api', routes);
 
