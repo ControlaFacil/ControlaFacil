@@ -44,7 +44,6 @@ export function Cadastro() {
     }
 
     try {
-      // 1. Cadastrar Endereço
       console.log("📤 Enviando dados do endereço:", endereco);
 
       const enderecoRes = await fetch("/api/endereco", {
@@ -96,6 +95,8 @@ export function Cadastro() {
       const rawUsuarioText = await usuarioRes.text();
       const usuarioData = rawUsuarioText ? JSON.parse(rawUsuarioText) : {};
 
+      console.log("📥 Resposta do cadastro de usuário:", usuarioData);
+
       if (!usuarioRes.ok) {
         let erroUsuario = "Erro ao cadastrar usuário.";
         try {
@@ -108,7 +109,48 @@ export function Cadastro() {
         return;
       }
 
-      // 3. Login automático
+      const idUsuario =
+        usuarioData.idUsuario?.id ||
+        usuarioData.usuario?.id ||
+        usuarioData.id ||
+        usuarioData.data?.id ||
+        null;
+
+
+      if (!idUsuario) {
+        alert("Erro: ID do usuário não retornado.");
+        return;
+      }
+
+      console.log("🔗 Vinculando endereço ao usuário...", {
+        idUsuario,
+        idEndereco
+      });
+
+      const vinculoRes = await fetch("/api/endereco/vincular-usuario", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          idUsuario,
+          idEndereco
+        })
+      });
+
+      const vinculoText = await vinculoRes.text();
+      const vinculoData = vinculoText ? JSON.parse(vinculoText) : {};
+
+      if (!vinculoRes.ok) {
+        let erroVinculo = "Erro ao vincular endereço ao usuário.";
+        try {
+          const json = JSON.parse(vinculoText);
+          erroVinculo = json.message || erroVinculo;
+        } catch {
+          erroVinculo = vinculoText || erroVinculo;
+        }
+        alert(erroVinculo);
+        return;
+      }
+
       const loginRes = await fetch("/api/usuarios/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

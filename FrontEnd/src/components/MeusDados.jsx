@@ -33,11 +33,11 @@ export function MeusDados() {
       try {
         console.log("🔍 Buscando dados do usuário com ID:", usuarioId);
 
+        // Buscar dados do usuário
         const response = await fetch(`/api/usuarios/${usuarioId}`);
         const text = await response.text();
-        const data = text ? JSON.parse(text) : null;
-
-        console.log("📦 Dados recebidos:", data);
+        const parsed = text ? JSON.parse(text) : null;
+        const data = parsed?.data;
 
         if (!response.ok || !data) {
           console.error("❌ Erro ao buscar dados:", response.status);
@@ -45,7 +45,7 @@ export function MeusDados() {
         }
 
         setUsuario({
-          nomeEmpresa: data.nomeEmpresa || "",
+          nomeEmpresa: data.razaoSocial || "",
           cnpj: data.cnpj || "",
           telefone: data.telefone || "",
           email: data.email || "",
@@ -53,15 +53,29 @@ export function MeusDados() {
           confirmarSenha: "",
         });
 
-        setEndereco({
-          rua: data.endereco?.rua || "",
-          numero: data.endereco?.numero || "",
-          bairro: data.endereco?.bairro || "",
-          cidade: data.endereco?.cidade || "",
-          estado: data.endereco?.estado || "",
-          cep: data.endereco?.cep || "",
-          complemento: data.endereco?.complemento || "",
-        });
+        // Buscar endereços vinculados
+        const enderecoRes = await fetch(`/api/endereco/usuario/${usuarioId}`);
+        const enderecoText = await enderecoRes.text();
+        const enderecoParsed = enderecoText ? JSON.parse(enderecoText) : null;
+        console.log("📦 Dados de endereço recebidos:", enderecoParsed);
+
+if (enderecoRes.ok && Array.isArray(enderecoParsed?.enderecos) && enderecoParsed.enderecos.length > 0) {
+  const primeiroEndereco = enderecoParsed.enderecos[0];
+  console.log("📍 Primeiro endereço encontrado:", primeiroEndereco);
+
+  setEndereco({
+    rua: primeiroEndereco.rua || "",
+    numero: primeiroEndereco.numero?.toString() || "",
+    bairro: primeiroEndereco.bairro || "",
+    cidade: primeiroEndereco.cidade || "",
+    estado: primeiroEndereco.estado || "",
+    cep: primeiroEndereco.cep || "",
+    complemento: primeiroEndereco.complemento || "",
+  });
+} else {
+  console.warn("⚠️ Nenhum endereço válido retornado pela API:", enderecoParsed);
+}
+
       } catch (error) {
         console.error("❌ Erro ao buscar dados do usuário:", error);
       }
