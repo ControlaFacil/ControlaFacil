@@ -7,26 +7,32 @@ create table Endereco (
 	estado CHAR (2) NOT NULL,
 	cep VARCHAR (8) NOT NULL,
 	complemento VARCHAR (150) NULL
-) create table Usuario (
+) 
+
+create table Usuario (
 	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	endereco INT FOREIGN KEY REFERENCES Endereco(id),
-	nomeEmpresa VARCHAR(255) NOT NULL,
+	apelidoEmpresa VARCHAR(255) NOT NULL,
 	cnpj CHAR(14) UNIQUE NOT NULL,
 	email VARCHAR(100) UNIQUE,
 	telefone VARCHAR(15),
 	senhaHash VARCHAR (255) NOT NULL
-) create table Parceiro (
+)
+
+create table Parceiro (
 	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	endereco INT FOREIGN KEY REFERENCES Endereco(id),
 	idUsuario INT FOREIGN KEY REFERENCES Usuario(id),
 	razaoSocial VARCHAR (255) NOT NULL,
 	cnpj CHAR(14) UNIQUE NOT NULL,
-	nomeParceiro VARCHAR (255) NULL,
+	nomeFantasia VARCHAR (255) NULL,
 	TipoParceiro VARCHAR(20) NOT NULL CHECK (TipoParceiro IN ('fornecedor', 'transportadora')),
 	email VARCHAR(100) UNIQUE,
 	telefone VARCHAR(15),
 	criadoEm DATETIME DEFAULT GETDATE()
-) create table Relatorio (
+) 
+
+create table Relatorio (
 	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	idUsuario INT FOREIGN KEY REFERENCES Usuario(id),
 	nomeRelatorio VARCHAR(30) NOT NULL,
@@ -56,21 +62,28 @@ create table Endereco (
 --FROM Relatorio R
 --INNER JOIN inserted i ON R.id = i.id;
 --END;
+
 create table CategoriaProduto (
 	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	idUsuario INT FOREIGN KEY REFERENCES Usuario(id),
 	nome VARCHAR(255) NOT NULL
-) create table TipoProduto (
+) 
+
+create table TipoProduto (
 	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	idUsuario INT FOREIGN KEY REFERENCES Usuario(id),
 	idCategoriaProduto INT FOREIGN KEY REFERENCES CategoriaProduto(id),
 	nome VARCHAR(255) NOT NULL
-) create table ModeloProduto (
+) 
+
+create table ModeloProduto (
 	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	idUsuario INT FOREIGN KEY REFERENCES Usuario(id),
 	idCategoriaProduto INT FOREIGN KEY REFERENCES CategoriaProduto(id),
 	idTipoProduto INT FOREIGN KEY REFERENCES TipoProduto(id),
-) create table Produto (
+) 
+
+create table Produto (
 	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	idUsuario INT FOREIGN KEY REFERENCES Usuario(id),
 	idParceiro INT FOREIGN KEY REFERENCES Parceiro(id),
@@ -80,7 +93,9 @@ create table CategoriaProduto (
 	nome VARCHAR(255) NOT NULL,
 	descricao TEXT NULL,
 	preco DECIMAL (10, 2)
-) create table Estoque (
+) 
+
+create table Estoque (
 	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	idUsuario INT FOREIGN KEY REFERENCES Usuario(id),
 	idProduto INT FOREIGN KEY REFERENCES Produto(id),
@@ -99,6 +114,8 @@ create table CategoriaProduto (
 --FROM Relatorio R
 --INNER JOIN inserted i ON R.id = i.id;
 --END;
+
+
 create table Pedidos (
 	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	idUsuario INT FOREIGN KEY REFERENCES Usuario(id),
@@ -116,13 +133,17 @@ create table Pedidos (
 	metodoPagamento VARCHAR(50),
 	valorTotal DECIMAL (10, 2),
 	origem VARCHAR(50) DEFAULT 'Mercado Livre'
-) create table ItensPedido (
+) 
+
+create table ItensPedido (
 	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	idProduto INT FOREIGN KEY REFERENCES Produto(id),
 	idPedido INT FOREIGN KEY REFERENCES Pedidos(id),
 	quantidade INT,
 	precoUnitario DECIMAL (10, 2)
-) create table Devolucao (
+) 
+
+create table Devolucao (
 	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	idPedido INT FOREIGN KEY REFERENCES Pedidos(id),
 	idEcommerce BIGINT,
@@ -133,9 +154,23 @@ create table Pedidos (
 	dataSolicitacao DATE,
 	dataAtualizacao DATE,
 	origem VARCHAR(50) DEFAULT 'Mercado Livre'
-) create table ItensDevolucao (
+) 
+
+create table ItensDevolucao (
 	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	idDevolucao INT FOREIGN KEY REFERENCES Devolucao(id),
 	idProduto INT FOREIGN KEY REFERENCES Produto(id),
 	quantidade INT
+)
+
+create table Vinculo_Parceiro_Endereco (
+	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+	idParceiro INT FOREIGN KEY REFERENCES Parceiro(id),
+	idEndereco INT FOREIGN KEY REFERENCES Endereco(id),
+)
+
+create table Vinculo_Usuario_Endereco (
+	id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+	idUsuario INT FOREIGN KEY REFERENCES Usuario(id),
+	idEndereco INT FOREIGN KEY REFERENCES Endereco(id),
 )
