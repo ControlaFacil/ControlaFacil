@@ -22,12 +22,12 @@ export function HeaderU() {
             </NavLink>
 
             <nav className={styles.nav}>
-                <NavLink to="/dashboard" className={({ isActive }) => isActive ? styles.active : ''}>Dashboard</NavLink>
-                <NavLink to="/produtos">Produtos</NavLink>
+                <NavLink to="/home" className={({ isActive }) => isActive ? styles.active : ''}>Dashboard</NavLink>
+                <NavLink to="/cadastro-produto">Cadastrar Produto</NavLink>
                 <NavLink to="/estoque">Estoque</NavLink>
                 <NavLink to="#">Relatórios</NavLink>
                 <NavLink to="/parceiros">Parceiros</NavLink>
-                <NavLink to="/cadastrar-parceiro">Cadastrar Parceiro</NavLink>
+                <NavLink to="/cadastro-parceiro">Cadastrar Parceiro</NavLink>
             </nav>
 
             <div className={styles.userProfile}>
