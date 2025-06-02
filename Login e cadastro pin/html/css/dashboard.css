@@ -557,3 +557,356 @@ footer {
         max-height: 250px; /* Reduz altura máxima da lista em telas menores */
     }
 }
+
+
+/* ... (seu CSS existente) ... */
+
+/* Estilos para a página de Cadastro de Produto */
+.form-section {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 2rem; /* Aumentado para mais espaço interno */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    max-width: 700px; /* Limita a largura do formulário */
+    margin: 0 auto 2rem auto; /* Centraliza e adiciona margem inferior */
+}
+
+.form-group {
+    margin-bottom: 1.5rem; /* Mais espaço entre os campos */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: var(--dark-gray);
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select { /* Adicionado select aqui */
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--medium-gray);
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: var(--font-family);
+}
+.form-group select {
+    background-color: white;
+    color: var(--text-color);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.4-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 0.7em top 50%, 0 0;
+    background-size: 0.65em auto, 100%;
+}
+
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group select:focus { /* Adicionado select aqui */
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(95, 193, 108, 0.3); /* Um leve brilho ao focar */
+}
+
+.form-group select:required:invalid {
+    color: #6c757d;
+}
+.form-group option[value=""][disabled] {
+    display: none;
+}
+.form-group option {
+    color: var(--text-color);
+}
+
+.form-section button[type="submit"] {
+    display: block;
+    width: auto;
+    min-width: 200px;
+    margin-top: 1.5rem;
+}
+
+/* Estilos para a página de Estoque */
+.chart-container.full-width-chart {
+    flex-basis: 100%;
+}
+
+.chart-placeholder p {
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.chart-placeholder p strong {
+    min-width: 250px;
+    display: inline-block;
+}
+
+.stock-bar {
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    color: white;
+    text-align: right;
+    padding-right: 5px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    margin-left: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    transition: width 0.5s ease-in-out;
+}
+
+.chart-legend {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 1rem;
+    font-size: 0.9rem;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    border-radius: 3px;
+    vertical-align: middle;
+}
+
+.stock-table-section {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    overflow-x: auto;
+    margin-top: 2rem;
+}
+
+.stock-table-section h3 {
+    margin-bottom: 1rem;
+    color: var(--dark-gray);
+}
+
+.partner-view-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.partner-list-section {
+    flex: 1;
+    min-width: 300px;
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    height: fit-content;
+}
+
+.partner-list-section h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: var(--dark-gray);
+}
+.partner-list-section p {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.partner-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.partner-list li {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--light-gray);
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    font-weight: 500;
+}
+
+.partner-list li:last-child {
+    border-bottom: none;
+}
+
+.partner-list li:hover {
+    background-color: #e9e9e9;
+}
+
+.partner-list li.active {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+}
+
+.partner-list li.loading-placeholder,
+.partner-list li.no-partners-placeholder {
+    color: #777;
+    font-style: italic;
+    cursor: default;
+    text-align: center;
+    padding: 1rem;
+}
+.partner-list li.no-partners-placeholder:hover {
+    background-color: transparent;
+}
+
+
+.partner-details-section {
+    flex: 2;
+    min-width: 350px;
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.partner-details-section h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--dark-gray);
+    border-bottom: 1px solid var(--medium-gray);
+    padding-bottom: 0.75rem;
+}
+
+.partner-info-content p {
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.partner-info-content p strong {
+    color: var(--dark-gray);
+    min-width: 150px;
+    display: inline-block;
+}
+
+#noPartnerSelected {
+    color: #777;
+    font-style: italic;
+}
+
+
+/* Ajuste no responsivo para o formulário, se necessário */
+@media (max-width: 768px) {
+    .form-section {
+        padding: 1.5rem;
+    }
+    .chart-placeholder p strong {
+        min-width: 150px;
+        margin-bottom: 5px;
+    }
+    .chart-placeholder p {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .stock-bar {
+        margin-left: 0;
+        margin-top: 5px;
+        width: 100% !important;
+        text-align: center;
+    }
+    .partner-view-container {
+        flex-direction: column;
+    }
+    .partner-list-section,
+    .partner-details-section {
+        flex-basis: 100%;
+        min-width: unset;
+    }
+    .partner-list {
+        max-height: 250px;
+    }
+}
+
+/* === NOVOS ESTILOS PARA PÁGINA "SOBRE NÓS" === */
+.team-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem; /* Espaço entre os cards dos membros */
+    justify-content: center; /* Centraliza os cards se não preencherem a linha */
+    margin-bottom: 2rem;
+}
+
+.team-member-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    text-align: center;
+    flex: 0 1 300px; /* Não cresce, pode encolher, base de 300px */
+    /* Para controlar o número de cards por linha:
+       Ex: 3 por linha (ajustando pelo gap): flex-basis: calc(33.333% - (2rem * 2 / 3));
+       Ex: 2 por linha: flex-basis: calc(50% - 1rem);
+    */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-member-card img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; /* Imagem circular */
+    object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
+    margin-bottom: 1rem;
+    border: 3px solid var(--medium-gray);
+    background-color: var(--light-gray); /* Cor de fundo para placeholder */
+}
+
+.team-member-card h3 {
+    font-size: 1.3rem;
+    color: var(--dark-gray);
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.team-member-card .member-role {
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+}
+
+.team-member-card .member-description {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.5;
+    text-align: justify; /* Justifica o texto da descrição */
+    flex-grow: 1; /* Faz a descrição ocupar o espaço restante */
+}
+
+/* Ajustes responsivos para a seção da equipe */
+@media (max-width: 1024px) {
+    .team-member-card {
+        flex-basis: calc(50% - 1rem); /* 2 cards por linha em tablets */
+    }
+}
+
+@media (max-width: 600px) {
+    .team-member-card {
+        flex-basis: 100%; /* 1 card por linha em celulares */
+    }
+    .team-member-card img {
+        width: 120px;
+        height: 120px;
+    }
+    .team-member-card h3 {
+        font-size: 1.1rem;
+    }
+}

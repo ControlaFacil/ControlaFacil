@@ -11,12 +11,13 @@
     <header>
         <div class="logo">Admin Estoque</div>
         <nav>
-            <a href="../html/dashboard.html" class="active">Dashboard</a>
+            <a href="../html/dashboard.html">Dashboard</a>
             <a href="../html/cadastro_produto.html">Produtos</a> 
-            <a href="../html/estoque.html">Estoque</a> <!-- Fazer a tela para estoque-->
-            <a href="#">Relatórios</a> <!-- Não precisa ainda-->
-            <a href="../html/parceiros_cadastrados.html">Parceiros</a> <!--Precisa fazer-->
+            <a href="../html/estoque.html">Estoque</a>
+            <a href="#">Relatórios</a>
+            <a href="../html/parceiros_cadastrados.html">Parceiros</a>
             <a href="../html/cadastro_parceiro.html">Cadastrar Parceiro</a>
+            <a href="../html/sobre_nos.html">Sobre Nós</a> 
         </nav>
         <div class="user-profile">
             <span>🔔</span> <!-- Ícone de notificação -->
@@ -37,13 +38,13 @@
                 <h2>Estoque Baixo</h2>
                 <p class="kpi-value">35</p>
                 <span class="kpi-icon">⚠️</span>
-                <a href="#" class="kpi-link">Ver Detalhes</a>
+                <a href="../html/estoque.html" class="kpi-link">Ver Detalhes</a>
             </div>
             <div class="kpi-card danger">
                 <h2>Esgotados</h2>
                 <p class="kpi-value">12</p>
                 <span class="kpi-icon">🚫</span>
-                <a href="#" class="kpi-link">Ver Detalhes</a>
+                <a href="../html/estoque.html" class="kpi-link">Ver Detalhes</a>
             </div>
             <div class="kpi-card">
                 <h2>Valor do Estoque</h2>
@@ -95,23 +96,31 @@
                         <td>3</td>
                         <td>5</td>
                         <td class="status-baixo">Baixo</td>
-                        <td><button class="action-btn">Repor</button></td>
+                        <td>
+                            <a href="../html/cadastro_produto.html"><button class="action-btn">Repor</button></a>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Mouse Sem Fio ABC</td>
-                        <td>MS005</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td class="status-esgotado">Esgotado</td>
-                        <td><button class="action-btn urgent">Repor Urgente</button></td>
-                    </tr>
+                    <td>Mouse Sem Fio ABC</td>
+                    <td>MS005</td>
+                    <td>0</td>
+                    <td>10</td>
+                    <td class="status-esgotado">Esgotado</td>
+                    <td>
+        <a href="../html/cadastro_produto.html">
+            <button class="action-btn urgent">Repor Urgente</button>
+        </a>
+    </td>
+</tr>
                     <tr>
                         <td>Teclado Gamer</td>
                         <td>TG002</td>
                         <td>8</td>
                         <td>7</td>
                         <td class="status-ok">OK (Próx. Mín)</td>
-                        <td><button class="action-btn">Monitorar</button></td>
+                        <td><a href="../html/estoque.html">
+                            <button class="action-btn">Monitorar</button>
+                        </a></td>
                     </tr>
                      <tr>
                         <td>Monitor LED 24"</td>
@@ -119,9 +128,9 @@
                         <td>25</td>
                         <td>5</td>
                         <td class="status-ok">OK</td>
-                        <td><button class="action-btn">Ver</button></td>
+                        <td><a href="../html/estoque.html"><button class="action-btn">Ver</button></a></td>
                     </tr>
-                </tbody>
+                </body>   
             </table>
         </section>
     </main>
