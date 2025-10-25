@@ -1,29 +1,30 @@
-// Importa as bibliotecas mssql e dotenv
-const sql = require('mssql');
-require('dotenv').config();
+// Importa as bibliotecas mysql2 e dotenv
+const mysql = require("mysql2/promise");
+require("dotenv").config();
 
-// Define as configurações da conexão com o SQL Server
-const dbConfig = {
-    user: process.env.DB_USER, // Usuário do banco de dados
-    password: process.env.DB_PASSWORD, // Senha do banco de dados
-    server: process.env.DB_SERVER, // Servidor do banco de dados
-    database: process.env.DB_DATABASE, // Nome do banco de dados
-    options: {
-        encrypt: true, // Criptografia para conexões seguras
-        trustServerCertificate: true, // Confiança no certificado do servidor
-    },
-};
-
-// Cria uma pool de conexões
-const pool = new sql.ConnectionPool(dbConfig);
-
-// Faz a conexão inicial
-const poolConnect = pool.connect();
-
-// Trata erros na conexão
-pool.on('error', err => {
-    console.error('Erro na conexão com o banco de dados:', err);
+// Define as configurações da conexão com o MySQL
+const pool = mysql.createPool({
+  host: process.env.DB_SERVER || process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  waitForConnections: true,
+  connectionLimit: Number(process.env.DB_CONNECTION_LIMIT) || 10,
+  queueLimit: 0,
+  timezone: "Z",
+  decimalNumbers: true,
 });
 
+// Cria uma pool de conexões
+async function query(sql, params) {
+  try {
+    const [rows, fields] = await pool.execute(sql, params);
+    return rows;
+  } catch (error) {
+    console.error("Erro na execução da query:", error);
+    throw error;
+  }
+}
+
 // Exporta o pool e o módulo sql para uso nos models
-module.exports = { sql, pool, poolConnect };
+module.exports = { pool, query };
