@@ -7,19 +7,19 @@ const { conferirHash } = require("../utils/hash");
 const usuarioController = {
     // Inserir usuario
     async inserirUsuario(req, res) {
-        const { cnpj, razaoSocial, apelidoEmpresa, email, telefone, senha } = req.body;
+        const { nome, email, cpf, celular, cargo, senha } = req.body;
 
         // Validação dos dados obrigatórios
-        if (!cnpj || !razaoSocial || !email || !senha) {
-            return res.status(400).json({ error: 'Dados obrigatórios não foram preenchidos' });
+        if (!nome || !email || !cpf || !celular || !cargo || !senha) {
+            return res.status(400).json({ error: 'Dados obrigatórios não foram preenchidos', sucesso: false });
         }
 
         try {
-            // Verificar se o CNPJ já existe
-            const cnpjExiste = await Usuario.existeCnpj(cnpj)
-            if (cnpjExiste) {
+            // Verificar se o CPF já existe
+            const cpfExiste = await Usuario.existeCpf(cpf)
+            if (cpfExiste) {
                 return res.status(400).json({
-                    error: 'CNPJ já cadastrado',
+                    error: 'CPF já cadastrado',
                     sucesso: false
                 });
             }
@@ -37,11 +37,11 @@ const usuarioController = {
 
             // Chamar método do modelo para inserir o usuário
             const usuarioCadastrado = await Usuario.inserir({
-                cnpj,
-                razaoSocial,
-                apelidoEmpresa,
+                nome,
                 email,
-                telefone,
+                cpf,
+                celular,
+                cargo,
                 senhaHash
             });
 
