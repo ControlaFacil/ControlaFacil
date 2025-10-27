@@ -1,13 +1,15 @@
-const { poolConnect, pool } = require('./config/db');
+const { pool, query } = require("./config/db");
 
 async function testarConexao() {
-    try {
-        await poolConnect; // Garante que a conexão está ativa
-        const result = await pool.request().query('SELECT GETDATE() AS dataAtual');
-        console.log('Conexão bem-sucedida! Data/hora do SQL Server:', result.recordset[0].dataAtual);
-    } catch (err) {
-        console.error('Erro na conexão com o banco:', err);
-    }
+  try {
+    const result = await query("SELECT NOW() AS dataHoraAtual");
+    console.log(
+      "Conexão bem-sucedida. Data e hora atual do banco:",
+      result[0].dataHoraAtual
+    );
+  } catch (err) {
+    console.error("Erro na conexão com o banco:", err);
+  }
 }
 
 testarConexao();
