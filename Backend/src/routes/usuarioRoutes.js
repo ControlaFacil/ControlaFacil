@@ -8,7 +8,7 @@ const usuarioController = require('../controllers/usuarioController');
  * @swagger
  * tags:
  *   name: Usuários
- *   description: API's para gerenciamento de usuários
+ *   description: API para gerenciamento de usuários
  */
 
 /**
@@ -46,6 +46,8 @@ const usuarioController = require('../controllers/usuarioController');
  *               - nome
  *               - email
  *               - cpf
+ *               - celular
+ *               - cargo
  *               - senha
  *     responses:
  *       201:
@@ -87,7 +89,6 @@ const usuarioController = require('../controllers/usuarioController');
  *       500:
  *         description: Erro interno ao inserir usuário
  */
-router.post('/usuarios', usuarioController.inserirUsuario)
 
 /**
  * @swagger
@@ -104,10 +105,10 @@ router.post('/usuarios', usuarioController.inserirUsuario)
  *             properties:
  *               email:
  *                 type: string
- *                 example: "joao@gmail.com"
+ *                 example: "joao@email.com"
  *               senha:
  *                 type: string
- *                 example: "123456"
+ *                 example: "senhaSegura123"
  *             required:
  *               - email
  *               - senha
@@ -119,12 +120,12 @@ router.post('/usuarios', usuarioController.inserirUsuario)
  *             example:
  *               message: Login realizado com sucesso
  *               usuario:
- *                 id: 1
- *                 cnpj: "12345678000199"
- *                 razaoSocial: "Empresa Exemplo"
- *                 apelidoEmpresa: "Exemplo"
- *                 email: "joao@gmail.com"
- *                 telefone: "11999999999"
+ *                 id: 10
+ *                 nome: "João da Silva"
+ *                 cpf: "12345678900"
+ *                 celular: "11999999999"
+ *                 email: "joao@email.com"
+ *                 cargo: "Administrador"
  *               sucesso: true
  *       400:
  *         description: Dados obrigatórios não foram preenchidos
@@ -150,7 +151,6 @@ router.post('/usuarios', usuarioController.inserirUsuario)
  *       500:
  *         description: Erro interno ao fazer login
  */
-router.post ('/usuarios/login', usuarioController.login);
 
 /**
  * @swagger
@@ -167,17 +167,17 @@ router.post ('/usuarios/login', usuarioController.login);
  *               quantidade: 2
  *               data:
  *                 - id: 1
- *                   cnpj: "12345678000100"
- *                   razaoSocial: "Empresa João"
- *                   apelidoEmpresa: "João LTDA"
+ *                   nome: "João da Silva"
  *                   email: "joao@email.com"
- *                   telefone: "11988887777"
+ *                   cpf: "12345678900"
+ *                   celular: "11999999999"
+ *                   cargo: "Administrador"
  *                 - id: 2
- *                   cnpj: "98765432000100"
- *                   razaoSocial: "Empresa Maria"
- *                   apelidoEmpresa: "Maria ME"
+ *                   nome: "Maria Souza"
  *                   email: "maria@email.com"
- *                   telefone: "11988887778"
+ *                   cpf: "98765432100"
+ *                   celular: "11988887778"
+ *                   cargo: "Usuário"
  *               sucesso: true
  *       500:
  *         description: Erro ao listar usuários
@@ -188,7 +188,6 @@ router.post ('/usuarios/login', usuarioController.login);
  *               message: "Mensagem detalhada do erro"
  *               sucesso: false
  */
-router.get('/usuarios', usuarioController.listarUsuarios);
 
 /**
  * @swagger
@@ -210,19 +209,21 @@ router.get('/usuarios', usuarioController.listarUsuarios);
  *         content:
  *           application/json:
  *             example:
- *               id: 1
- *               cnpj: "12345678000100"
- *               razaoSocial: "Empresa João"
- *               apelidoEmpresa: "João LTDA"
- *               email: "joao@email.com"
- *               telefone: "11988887777"
+ *               message: Usuário encontrado
+ *               data:
+ *                 id: 1
+ *                 nome: "João da Silva"
+ *                 email: "joao@email.com"
+ *                 cpf: "12345678900"
+ *                 celular: "11999999999"
+ *                 cargo: "Administrador"
  *               sucesso: true
  *       400:
  *         description: ID não informado
  *         content:
  *           application/json:
  *             example:
- *               error: ID não informado
+ *               error: ID é obrigatório
  *               sucesso: false
  *       404:
  *         description: Usuário não encontrado
@@ -236,10 +237,14 @@ router.get('/usuarios', usuarioController.listarUsuarios);
  *         content:
  *           application/json:
  *             example:
- *               error: Erro ao buscar usuário
+ *               error: Erro ao buscar usuário por ID
  *               message: "Mensagem detalhada do erro"
  *               sucesso: false
  */
+
+router.post('/usuarios', usuarioController.inserirUsuario);
+router.post('/usuarios/login', usuarioController.login);
+router.get('/usuarios', usuarioController.listarUsuarios);
 router.get('/usuarios/:id', usuarioController.buscarPorId);
 
 module.exports = router;

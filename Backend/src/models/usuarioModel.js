@@ -26,27 +26,19 @@ const usuarioModel = {
   },
 
   async listarUsuarios() {
-    await poolConnect;
-    const result = await pool
-      .request()
-      .query(
-        "SELECT id, cnpj, email, telefone, razaoSocial, apelidoEmpresa FROM Usuario"
-      );
-
-    return result.recordset;
+    try {
+        const usuarios = await query("SELECT id, nome, email, cpf, celular, cargo FROM usuarios");
+        return usuarios;
+    } catch (error) {
+      console.error("Erro ao listar usuários:", error);
+      throw new Error("Erro ao listar usuários: " + error);
+    }
   },
 
   async buscarPorId(id) {
-    await poolConnect;
     try {
-      const result = await pool
-        .request()
-        .input("id", sql.Int, id)
-        .query(
-          `SELECT id, cnpj, email, telefone, razaoSocial, apelidoEmpresa FROM Usuario WHERE id = @id`
-        );
-
-      return result.recordset[0];
+      const result = await query("SELECT id, nome, email, cpf, celular, cargo FROM usuarios WHERE id = ?", [id]);
+      return result[0];
     } catch (error) {
       console.error("Erro ao buscar usuário por ID:", error);
       throw new Error("Erro ao buscar usuário por ID: " + error);
@@ -55,14 +47,13 @@ const usuarioModel = {
 
   async buscarPorEmail(email) {
     try {
-        const result = await query(
-          "SELECT * FROM usuarios WHERE email = ?",
-          [email]
-        );
-        return result[0];
+      const result = await query("SELECT * FROM usuarios WHERE email = ?", [
+        email,
+      ]);
+      return result[0];
     } catch (error) {
-        console.error("Erro ao buscar usuário por email:", error);
-        throw new Error("Erro ao buscar usuário por email: " + error);
+      console.error("Erro ao buscar usuário por email:", error);
+      throw new Error("Erro ao buscar usuário por email: " + error);
     }
   },
 
