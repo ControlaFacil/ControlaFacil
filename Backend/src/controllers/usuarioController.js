@@ -1,6 +1,7 @@
 // O usuarioController é responsável por gerenciar as operações relacionadas a clientes, como inserção, atualização e exclusão de dados.
 
 const Usuario = require('../models/usuarioModel');
+const { gerarToken } = require("../utils/token");
 const { gerarHash } = require("../utils/hash");
 const { conferirHash } = require("../utils/hash");
 
@@ -79,16 +80,11 @@ const usuarioController = {
                 return res.status(401).json({ error: 'Senha incorreta', sucesso: false });
             }
 
+            const token = gerarToken({ id: usuario.id, nome: usuario.nome, cargo: usuario.cargo });
+
             return res.status(200).json({
                 message: "Login realizado com sucesso",
-                usuario: {
-                    id: usuario.id,
-                    nome: usuario.nome,
-                    cpf: usuario.cpf,
-                    celular: usuario.celular,
-                    email: usuario.email,
-                    cargo: usuario.cargo
-                },
+                token: token,
                 sucesso: true
             })
 

@@ -1,5 +1,6 @@
 const express = require('express');
 
+const autenticar = require('../middlewares/autenticar');
 const router = express.Router(); // Cria um objeto router
 
 const usuarioController = require('../controllers/usuarioController');
@@ -242,9 +243,9 @@ const usuarioController = require('../controllers/usuarioController');
  *               sucesso: false
  */
 
-router.post('/usuarios', usuarioController.inserirUsuario);
+router.post('/usuarios', autenticar, usuarioController.inserirUsuario);
 router.post('/usuarios/login', usuarioController.login);
-router.get('/usuarios', usuarioController.listarUsuarios);
-router.get('/usuarios/:id', usuarioController.buscarPorId);
+router.get('/usuarios', autenticar, usuarioController.listarUsuarios);
+router.get('/usuarios/:id', autenticar, usuarioController.buscarPorId);
 
 module.exports = router;
