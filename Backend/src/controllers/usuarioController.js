@@ -83,11 +83,11 @@ const usuarioController = {
                 message: "Login realizado com sucesso",
                 usuario: {
                     id: usuario.id,
-                    cnpj: usuario.cnpj,
-                    razaoSocial: usuario.razaoSocial,
-                    apelidoEmpresa: usuario.apelidoEmpresa,
+                    nome: usuario.nome,
+                    cpf: usuario.cpf,
+                    celular: usuario.celular,
                     email: usuario.email,
-                    telefone: usuario.telefone
+                    cargo: usuario.cargo
                 },
                 sucesso: true
             })

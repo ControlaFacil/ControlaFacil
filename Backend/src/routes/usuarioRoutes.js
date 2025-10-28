@@ -24,28 +24,28 @@ const usuarioController = require('../controllers/usuarioController');
  *           schema:
  *             type: object
  *             properties:
- *               cnpj:
+ *               nome:
  *                 type: string
- *                 example: "12345678000100"
- *               razaoSocial:
- *                 type: string
- *                 example: "Empresa João"
- *               apelidoEmpresa:
- *                 type: string
- *                 example: "João LTDA"
+ *                 example: "João da Silva"
  *               email:
  *                 type: string
  *                 example: "joao@email.com"
- *               telefone:
+ *               cpf:
  *                 type: string
- *                 example: "11988887777"
+ *                 example: "12345678900"
+ *               celular:
+ *                 type: string
+ *                 example: "11999999999"
+ *               cargo:
+ *                 type: string
+ *                 example: "Administrador"
  *               senha:
  *                 type: string
  *                 example: "senhaSegura123"
  *             required:
- *               - cnpj
- *               - razaoSocial
+ *               - nome
  *               - email
+ *               - cpf
  *               - senha
  *     responses:
  *       201:
@@ -54,13 +54,15 @@ const usuarioController = require('../controllers/usuarioController');
  *           application/json:
  *             example:
  *               message: Usuário inserido com sucesso
- *               idUsuario:
+ *               usuario:
  *                 id: 10
- *                 cnpj: "12345678000100"
- *                 razaoSocial: "Empresa João"
- *                 apelidoEmpresa: "João LTDA"
+ *                 nome: "João da Silva"
  *                 email: "joao@email.com"
- *                 telefone: "11988887777"
+ *                 cpf: "12345678900"
+ *                 celular: "11999999999"
+ *                 cargo: "Administrador"
+ *                 data_criacao: "2025-10-27T12:34:56.000Z"
+ *                 excluido: 0
  *               sucesso: true
  *       400:
  *         description: Erro na requisição
@@ -72,10 +74,10 @@ const usuarioController = require('../controllers/usuarioController');
  *                 value:
  *                   error: Dados obrigatórios não foram preenchidos
  *                   sucesso: false
- *               CnpjJaCadastrado:
- *                 summary: CNPJ já cadastrado
+ *               CpfJaCadastrado:
+ *                 summary: CPF já cadastrado
  *                 value:
- *                   error: CNPJ já cadastrado
+ *                   error: CPF já cadastrado
  *                   sucesso: false
  *               EmailJaCadastrado:
  *                 summary: Email já cadastrado

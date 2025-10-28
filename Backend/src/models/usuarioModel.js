@@ -54,12 +54,16 @@ const usuarioModel = {
   },
 
   async buscarPorEmail(email) {
-    await poolConnect;
-    const result = await pool
-      .request()
-      .input("email", email)
-      .query(`SELECT * FROM USUARIO where email = @email`);
-    return result.recordset[0];
+    try {
+        const result = await query(
+          "SELECT * FROM usuarios WHERE email = ?",
+          [email]
+        );
+        return result[0];
+    } catch (error) {
+        console.error("Erro ao buscar usuário por email:", error);
+        throw new Error("Erro ao buscar usuário por email: " + error);
+    }
   },
 
   async existeCpf(cpf) {
