@@ -246,7 +246,7 @@ const usuarioController = require('../controllers/usuarioController');
 router.post('/usuarios', autenticar, usuarioController.inserirUsuario);
 router.post('/usuarios/login', usuarioController.login);
 router.get('/usuarios', autenticar, usuarioController.listarUsuarios);
-router.get('/usuarios/:id', autenticar, usuarioController.buscarPorId);
 router.get('/usuarios/me', autenticar, usuarioController.dadosUsuarioLogado);
+router.get('/usuarios/:id', autenticar, usuarioController.buscarPorId);
 
 module.exports = router;

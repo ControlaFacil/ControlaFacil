@@ -164,14 +164,11 @@ const usuarioController = {
 
   async dadosUsuarioLogado(req, res) {
     try {
-      debugger;
       const usuarioId = req.usuario.id;
-      console.log("ID do usuário logado:", usuarioId);
 
       const usuario = await Usuario.buscarPorId(usuarioId);
 
       if (!usuario) {
-        console.log("Usuário não encontrado para o ID:", usuarioId);
         return res.status(404).json({
           error: "Usuário não encontrado",
           sucesso: false,
