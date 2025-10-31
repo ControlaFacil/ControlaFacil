@@ -14,10 +14,59 @@ const usuarioController = require('../controllers/usuarioController');
 
 /**
  * @swagger
+ * /api/usuarios/me:
+ *   get:
+ *     summary: Retorna os dados do usuário logado
+ *     tags: [Usuários]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Dados do usuário logado retornados com sucesso
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Dados do usuário logado obtidos com sucesso
+ *               usuario:
+ *                 id: 1
+ *                 nome: "João da Silva"
+ *                 email: "joao@email.com"
+ *                 cpf: "12345678900"
+ *                 celular: "11999999999"
+ *                 cargo: "Administrador"
+ *               sucesso: true
+ *       401:
+ *         description: Não autorizado
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Token inválido ou ausente
+ *               sucesso: false
+ *       404:
+ *         description: Usuário não encontrado
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Usuário não encontrado
+ *               sucesso: false
+ *       500:
+ *         description: Erro ao obter dados do usuário logado
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Erro ao obter dados do usuário logado
+ *               message: "Mensagem detalhada do erro"
+ *               sucesso: false
+ */
+
+/**
+ * @swagger
  * /api/usuarios:
  *   post:
  *     summary: Cria um novo usuário no sistema
  *     tags: [Usuários]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -57,15 +106,7 @@ const usuarioController = require('../controllers/usuarioController');
  *           application/json:
  *             example:
  *               message: Usuário inserido com sucesso
- *               usuario:
- *                 id: 10
- *                 nome: "João da Silva"
- *                 email: "joao@email.com"
- *                 cpf: "12345678900"
- *                 celular: "11999999999"
- *                 cargo: "Administrador"
- *                 data_criacao: "2025-10-27T12:34:56.000Z"
- *                 excluido: 0
+ *               idUsuario: 10
  *               sucesso: true
  *       400:
  *         description: Erro na requisição
@@ -89,6 +130,12 @@ const usuarioController = require('../controllers/usuarioController');
  *                   sucesso: false
  *       500:
  *         description: Erro interno ao inserir usuário
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Erro ao inserir usuário
+ *               message: "Mensagem detalhada do erro"
+ *               sucesso: false
  */
 
 /**
