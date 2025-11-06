@@ -1,5 +1,3 @@
-
-
 -- ===================================
 -- CRIAÇÃO DAS TABELAS
 -- ===================================
@@ -167,6 +165,15 @@ CREATE TABLE `relatorio_personalizado` (
   `excluido` TINYINT DEFAULT 0 
 );
 
+CREATE TABLE `produto_imagem` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `produto_id` INT NOT NULL,
+  `url_imagem` VARCHAR(500) NOT NULL,
+  `ordem` INT DEFAULT 1,
+  `destaque` TINYINT DEFAULT 1,
+  `data_upload` DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 -- ===================================
 -- DEFINIÇÃO DAS CHAVES ESTRANGEIRAS (FOREIGN KEYS)
 -- ===================================
@@ -213,6 +220,9 @@ ALTER TABLE `item_devolucao` ADD FOREIGN KEY (`produto_id`) REFERENCES `produto`
 -- Feedbacks
 ALTER TABLE `feedback` ADD FOREIGN KEY (`integracao_id`) REFERENCES `integracoes` (`id`);
 ALTER TABLE `feedback` ADD FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`);
+
+-- Produto Imagem: referência ao produto
+ALTER TABLE `produto_imagem` ADD FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`);
 
 
 -- ===================================
