@@ -19,7 +19,8 @@ CREATE TABLE `usuarios` (
 
 CREATE TABLE `integracoes` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `nome` VARCHAR(255)
+  `nome` VARCHAR(255),
+  `imagem_url` VARCHAR(500)
 );
 
 CREATE TABLE `integracao_configuracao` (
