@@ -1,0 +1,25 @@
+=====================================================================================================================================================================================
+
+CONEXÃO DA APLICAÇÃO
+
+client Id: 5137782277166166
+
+secret-key: 0mWgJ5O4zh7YS2o212eiCj3Zg3HKFKyw
+
+redirectUrl: https://guigaldino.github.io/Aplicacao-Teste/FrontEnd/index.html
+
+TG-690d4e8e4cf4a50001936f5e-1533497939
+
+https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=5137782277166166&redirect_uri=https://guigaldino.github.io/Aplicacao-Teste/FrontEnd/index.html
+
+=====================================================================================================================================================================================
+
+
+
+=====================================================================================================================================================================================
+AUTENTICAÇÃO DE USUÁRIO EXTERNO NA APLICAÇÃO
+
+
+URL DE AUTORIZAÇÃO: https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=5137782277166166&redirect_uri=https://guigaldino.github.io/Aplicacao-Teste/FrontEnd/index.html
+
+=====================================================================================================================================================================================
