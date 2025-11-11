@@ -16,6 +16,61 @@ const ESTADOS = [
     { uf: "SP", nome: "São Paulo" }, { uf: "SE", nome: "Sergipe" }, { uf: "TO", nome: "Tocantins" },
 ];
 
+/**
+ * Funções de Máscara (Formatação com Regex)
+ */
+
+// Máscara para CNPJ: 00.000.000/0000-00
+const maskCnpj = (value) => {
+    // 1. Remove tudo que não for dígito
+    const cleanValue = value.replace(/\D/g, "");
+    // 2. Limita a 14 dígitos (CNPJ)
+    const limitedValue = cleanValue.substring(0, 14);
+
+    // 3. Aplica a máscara: (\d{2}) PONTO (\d{3}) PONTO (\d{3}) BARRA (\d{4}) HÍFEN (\d{2})
+    return limitedValue.replace(
+        /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,
+        "$1.$2.$3/$4-$5"
+    );
+};
+
+// Máscara para Telefone: (00) 0000-0000 ou (00) 00000-0000
+const maskTelefone = (value) => {
+    // 1. Remove tudo que não for dígito
+    const cleanValue = value.replace(/\D/g, "");
+    // 2. Limita a 11 dígitos (incluindo o DDD e o 9, se for celular)
+    const limitedValue = cleanValue.substring(0, 11);
+
+    // 3. Aplica a máscara
+    if (limitedValue.length <= 10) {
+        // Padrão Fixo/Celular antigo: (00) 0000-0000
+        return limitedValue.replace(
+            /^(\d{2})(\d{4})(\d{4})$/,
+            "($1) $2-$3"
+        );
+    } else {
+        // Padrão Celular: (00) 00000-0000
+        return limitedValue.replace(
+            /^(\d{2})(\d{5})(\d{4})$/,
+            "($1) $2-$3"
+        );
+    }
+};
+
+// Máscara para CEP: 00000-000
+const maskCep = (value) => {
+    // 1. Remove tudo que não for dígito
+    const cleanValue = value.replace(/\D/g, "");
+    // 2. Limita a 8 dígitos (CEP)
+    const limitedValue = cleanValue.substring(0, 8);
+
+    // 3. Aplica a máscara: (\d{5}) HÍFEN (\d{3})
+    return limitedValue.replace(
+        /^(\d{5})(\d{3})$/,
+        "$1-$2"
+    );
+};
+
 export function Cadastro() {
     const navigate = useNavigate();
     const [step, setStep] = useState(1);
@@ -41,20 +96,60 @@ export function Cadastro() {
 
     const handleChange = (e, setter) => {
         const { name, value } = e.target;
+        let newValue = value;
+
+        // Aplica as máscaras com base no nome do campo
+        switch (name) {
+            case "cnpj":
+                newValue = maskCnpj(value);
+                break;
+            case "telefoneEmpresa":
+                newValue = maskTelefone(value);
+                break;
+            case "cep":
+                newValue = maskCep(value);
+                break;
+            case "numero":
+                // Garante que "numero" só aceite dígitos (e vazio)
+                newValue = value.replace(/\D/g, "").substring(0, 10);
+                break;
+            default:
+                // Para campos de texto simples (razaoSocial, rua, etc.), mantemos o valor
+                break;
+        }
+
         setter(prev => ({
             ...prev,
-            [name]: name === "numero" ? (value ? value : "") : value
+            [name]: newValue
         }));
     };
 
     const handleNext = () => {
-        if (step === 1 && (!usuario.razaoSocial || !usuario.cnpj || !usuario.telefoneEmpresa)) {
-             toast.error("Preencha todos os campos obrigatórios da Etapa 1.");
-             return;
+        if (step === 1) {
+             // Validação de formato antes de avançar para garantir a máscara
+            if (usuario.cnpj && usuario.cnpj.replace(/\D/g, "").length !== 14) {
+                 toast.error("O CNPJ deve ter 14 dígitos.");
+                 return;
+            }
+             if (usuario.telefoneEmpresa && usuario.telefoneEmpresa.replace(/\D/g, "").length < 10) {
+                 toast.error("O telefone deve ter no mínimo 10 dígitos (DDD + 8 ou 9 dígitos).");
+                 return;
+             }
+            if (!usuario.razaoSocial || !usuario.cnpj || !usuario.telefoneEmpresa) {
+                 toast.error("Preencha todos os campos obrigatórios da Etapa 1.");
+                 return;
+            }
         }
-        if (step === 2 && (!endereco.rua || !endereco.numero || !endereco.cidade || !endereco.estado || !endereco.cep)) {
-             toast.error("Preencha todos os campos obrigatórios da Etapa 2.");
-             return;
+        if (step === 2) {
+             // Validação de formato antes de avançar para garantir a máscara
+            if (endereco.cep && endereco.cep.replace(/\D/g, "").length !== 8) {
+                 toast.error("O CEP deve ter 8 dígitos.");
+                 return;
+            }
+            if (!endereco.rua || !endereco.numero || !endereco.bairro || !endereco.cidade || !endereco.estado || !endereco.cep) {
+                 toast.error("Preencha todos os campos obrigatórios da Etapa 2.");
+                 return;
+            }
         }
         if (step < 3) {
             setStep(step + 1);
@@ -67,6 +162,7 @@ export function Cadastro() {
         }
     };
     
+    // ... (restante do código, incluindo useMemo e handleSubmit)
     const stepSubtitle = useMemo(() => {
         switch (step) {
             case 1:
@@ -87,14 +183,30 @@ export function Cadastro() {
             toast.error("As senhas não coincidem.");
             return;
         }
+        
+        // Adiciona validação de formato final para garantir
+        if (usuario.cnpj.replace(/\D/g, "").length !== 14 || 
+            endereco.cep.replace(/\D/g, "").length !== 8 ||
+            usuario.telefoneEmpresa.replace(/\D/g, "").length < 10) {
+            toast.error("Um ou mais campos (CNPJ, Telefone, CEP) estão incompletos ou inválidos.");
+            return;
+        }
+
 
         try {
             console.log("Enviando dados do endereço:", endereco);
 
+            const enderecoPayload = {
+                ...endereco,
+                cep: endereco.cep.replace(/\D/g, ""), // Limpa o CEP antes de enviar
+                numero: endereco.numero // O número já é tratado para ser apenas dígitos no handleChange
+            };
+
+
             const enderecoRes = await fetch("/api/endereco", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(endereco)
+                body: JSON.stringify(enderecoPayload)
             });
 
             const enderecoText = await enderecoRes.text();
@@ -282,11 +394,11 @@ export function Cadastro() {
                         </div>
                         <div className={styles['input-group']}>
                             <label htmlFor="cnpj">CNPJ:</label>
-                            <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" value={usuario.cnpj} onChange={(e) => handleChange(e, setUsuario)} required />
+                            <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" value={usuario.cnpj} onChange={(e) => handleChange(e, setUsuario)} required maxLength={18} />
                         </div>
                         <div className={styles['input-group']}>
                             <label htmlFor="telefoneEmpresa">Telefone:</label>
-                            <input type="tel" id="telefoneEmpresa" name="telefoneEmpresa" placeholder="(00) 00000-0000" value={usuario.telefoneEmpresa} onChange={(e) => handleChange(e, setUsuario)} required />
+                            <input type="tel" id="telefoneEmpresa" name="telefoneEmpresa" placeholder="(00) 00000-0000" value={usuario.telefoneEmpresa} onChange={(e) => handleChange(e, setUsuario)} required maxLength={15} />
                         </div>
                     </div>
 
@@ -318,7 +430,7 @@ export function Cadastro() {
                         </div>
                         <div className={styles['input-group']}>
                             <label htmlFor="cep">CEP:</label>
-                            <input type="text" id="cep" name="cep" placeholder="00000-000" value={endereco.cep} onChange={(e) => handleChange(e, setEndereco)} required />
+                            <input type="text" id="cep" name="cep" placeholder="00000-000" value={endereco.cep} onChange={(e) => handleChange(e, setEndereco)} required maxLength={9} />
                         </div>
                         <div className={styles['input-group']}>
                             <label htmlFor="complemento">Complemento:</label>
@@ -361,7 +473,7 @@ export function Cadastro() {
                 </form>
 
                 <div className={styles['login-link']}>
-                    <p>Já tem uma conta? <a href="/login">Faça login aqui</a></p>
+                    <p>Já tem uma conta? <a href="/">Faça login aqui</a></p>
                 </div>
                 <p className={styles['app-version']}>v1.0.0</p>
             </div>
