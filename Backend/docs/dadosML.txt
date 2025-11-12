@@ -4,7 +4,7 @@ CONEXÃO DA APLICAÇÃO
 
 client Id: 5137782277166166
 
-secret-key: 0mWgJ5O4zh7YS2o212eiCj3Zg3HKFKyw
+secret-key: g1naoZfuSzwlMuz40ZRmFia6rPfIZF7Q
 
 redirectUrl: https://guigaldino.github.io/Aplicacao-Teste/FrontEnd/index.html
 
