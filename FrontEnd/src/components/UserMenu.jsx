@@ -1,27 +1,33 @@
 import { useNavigate } from "react-router-dom";
 import styles from './style/HeaderU.module.css';
-import { User, LogOut } from 'lucide-react'; // Importei ícones para padronizar
+import { Settings, LogOut } from 'lucide-react'; 
 
-export function UserMenu() {
+// Simplificado: Removida a prop secondaryLinks
+export function UserMenu({ onClose }) {
     const navigate = useNavigate();
 
-    const handleMeusDados = () => {
-        navigate("/meus-dados");
+    const handleNavigation = (path) => {
+        navigate(path);
+        onClose();
     };
 
     const handleSair = () => {
         // Implemente aqui a lógica de logout (limpar token/sessão)
         navigate("/");
+        onClose();
     };
 
     return (
         <div className={styles.userMenu}>
-            <p className={styles.menuItem} onClick={handleMeusDados}>
-                <User size={18} /> Meus dados
-            </p>
-            <p className={`${styles.menuItem} ${styles.logoutItem}`} onClick={handleSair}>
+            <button className={styles.menuItem} onClick={() => handleNavigation("/meus-dados")}>
+                <Settings size={18} /> Meus dados
+            </button>
+            
+            {/* Removido o bloco secondaryLinks e o divisor */}
+
+            <button className={`${styles.menuItem} ${styles.logoutItem}`} onClick={handleSair}>
                 <LogOut size={18} /> Sair
-            </p>
+            </button>
         </div>
     );
 }

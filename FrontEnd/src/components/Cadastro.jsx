@@ -2,12 +2,13 @@ import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./style/Cadastro.module.css";
 // Removido: import logo from "../assets/logo.controlafacil.jpg";
-import { CheckCircle, Shield, Headset } from 'lucide-react';
+import { CheckCircle, Shield, Headset } from 'lucide-react'; // Importado CheckCircle para uso no Stepper
 
 import { ToastContainer, toast } from 'react-toastify';
 
+// CORREÇÃO UX/DATA: Lista de estados revisada para ter os nomes corretos
 const ESTADOS = [
-    { uf: "AC", nome: "Alagoas" }, { uf: "AL", nome: "Alagoas" }, { uf: "AP", nome: "Amapá" }, { uf: "AM", nome: "Amazonas" },
+    { uf: "AC", nome: "Acre" }, { uf: "AL", nome: "Alagoas" }, { uf: "AP", nome: "Amapá" }, { uf: "AM", nome: "Amazonas" },
     { uf: "BA", nome: "Bahia" }, { uf: "CE", nome: "Ceará" }, { uf: "DF", nome: "Distrito Federal" }, { uf: "ES", nome: "Espírito Santo" },
     { uf: "GO", nome: "Goiás" }, { uf: "MA", nome: "Maranhão" }, { uf: "MT", nome: "Mato Grosso" }, { uf: "MS", nome: "Mato Grosso do Sul" },
     { uf: "MG", nome: "Minas Gerais" }, { uf: "PA", nome: "Pará" }, { uf: "PB", nome: "Paraíba" }, { uf: "PR", nome: "Paraná" },
@@ -22,12 +23,9 @@ const ESTADOS = [
 
 // Máscara para CNPJ: 00.000.000/0000-00
 const maskCnpj = (value) => {
-    // 1. Remove tudo que não for dígito
     const cleanValue = value.replace(/\D/g, "");
-    // 2. Limita a 14 dígitos (CNPJ)
     const limitedValue = cleanValue.substring(0, 14);
 
-    // 3. Aplica a máscara: (\d{2}) PONTO (\d{3}) PONTO (\d{3}) BARRA (\d{4}) HÍFEN (\d{2})
     return limitedValue.replace(
         /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,
         "$1.$2.$3/$4-$5"
@@ -36,20 +34,15 @@ const maskCnpj = (value) => {
 
 // Máscara para Telefone: (00) 0000-0000 ou (00) 00000-0000
 const maskTelefone = (value) => {
-    // 1. Remove tudo que não for dígito
     const cleanValue = value.replace(/\D/g, "");
-    // 2. Limita a 11 dígitos (incluindo o DDD e o 9, se for celular)
     const limitedValue = cleanValue.substring(0, 11);
 
-    // 3. Aplica a máscara
     if (limitedValue.length <= 10) {
-        // Padrão Fixo/Celular antigo: (00) 0000-0000
         return limitedValue.replace(
             /^(\d{2})(\d{4})(\d{4})$/,
             "($1) $2-$3"
         );
     } else {
-        // Padrão Celular: (00) 00000-0000
         return limitedValue.replace(
             /^(\d{2})(\d{5})(\d{4})$/,
             "($1) $2-$3"
@@ -59,12 +52,9 @@ const maskTelefone = (value) => {
 
 // Máscara para CEP: 00000-000
 const maskCep = (value) => {
-    // 1. Remove tudo que não for dígito
     const cleanValue = value.replace(/\D/g, "");
-    // 2. Limita a 8 dígitos (CEP)
     const limitedValue = cleanValue.substring(0, 8);
 
-    // 3. Aplica a máscara: (\d{5}) HÍFEN (\d{3})
     return limitedValue.replace(
         /^(\d{5})(\d{3})$/,
         "$1-$2"
@@ -94,6 +84,39 @@ export function Cadastro() {
         complemento: ""
     });
 
+    // UX: Função para auto-preenchimento do endereço via ViaCEP
+    const fetchCepData = async (cepValue) => {
+        const cleanCep = cepValue.replace(/\D/g, "");
+        if (cleanCep.length === 8) {
+            try {
+                // Acessa a API do ViaCEP
+                const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
+                const data = await response.json();
+
+                if (data.erro) {
+                    toast.warning("CEP não encontrado.");
+                    return;
+                }
+
+                setEndereco(prev => ({
+                    ...prev,
+                    rua: data.logradouro || prev.rua,
+                    bairro: data.bairro || prev.bairro,
+                    cidade: data.localidade || prev.cidade,
+                    estado: data.uf || prev.estado, // Popula o UF
+                    // Não preenche 'numero' nem 'complemento'
+                }));
+                // Feedback suave
+                toast.info("Endereço preenchido automaticamente! Por favor, confira os dados.");
+
+            } catch (error) {
+                console.error("Erro ao buscar CEP:", error);
+                // Não exibe erro para o usuário se for apenas uma falha de conexão
+            }
+        }
+    };
+
+
     const handleChange = (e, setter) => {
         const { name, value } = e.target;
         let newValue = value;
@@ -108,13 +131,16 @@ export function Cadastro() {
                 break;
             case "cep":
                 newValue = maskCep(value);
+                // UX: Chamada para buscar o CEP se estiver completo
+                if (newValue.replace(/\D/g, "").length === 8) {
+                    fetchCepData(newValue);
+                }
                 break;
             case "numero":
                 // Garante que "numero" só aceite dígitos (e vazio)
                 newValue = value.replace(/\D/g, "").substring(0, 10);
                 break;
             default:
-                // Para campos de texto simples (razaoSocial, rua, etc.), mantemos o valor
                 break;
         }
 
@@ -126,29 +152,30 @@ export function Cadastro() {
 
     const handleNext = () => {
         if (step === 1) {
-             // Validação de formato antes de avançar para garantir a máscara
+            // Validação de formato antes de avançar para garantir a máscara
             if (usuario.cnpj && usuario.cnpj.replace(/\D/g, "").length !== 14) {
-                 toast.error("O CNPJ deve ter 14 dígitos.");
-                 return;
+                toast.error("O CNPJ deve ter 14 dígitos.");
+                return;
             }
-             if (usuario.telefoneEmpresa && usuario.telefoneEmpresa.replace(/\D/g, "").length < 10) {
-                 toast.error("O telefone deve ter no mínimo 10 dígitos (DDD + 8 ou 9 dígitos).");
-                 return;
-             }
+            if (usuario.telefoneEmpresa && usuario.telefoneEmpresa.replace(/\D/g, "").length < 10) {
+                toast.error("O telefone deve ter no mínimo 10 dígitos (DDD + 8 ou 9 dígitos).");
+                return;
+            }
             if (!usuario.razaoSocial || !usuario.cnpj || !usuario.telefoneEmpresa) {
-                 toast.error("Preencha todos os campos obrigatórios da Etapa 1.");
-                 return;
+                toast.error("Preencha todos os campos obrigatórios da Etapa 1.");
+                return;
             }
         }
         if (step === 2) {
-             // Validação de formato antes de avançar para garantir a máscara
+            // Validação de formato antes de avançar para garantir a máscara
             if (endereco.cep && endereco.cep.replace(/\D/g, "").length !== 8) {
-                 toast.error("O CEP deve ter 8 dígitos.");
-                 return;
+                toast.error("O CEP deve ter 8 dígitos.");
+                return;
             }
+            // Verifica se 'estado' foi selecionado (o value="" é a primeira opção)
             if (!endereco.rua || !endereco.numero || !endereco.bairro || !endereco.cidade || !endereco.estado || !endereco.cep) {
-                 toast.error("Preencha todos os campos obrigatórios da Etapa 2.");
-                 return;
+                toast.error("Preencha todos os campos obrigatórios da Etapa 2.");
+                return;
             }
         }
         if (step < 3) {
@@ -162,15 +189,14 @@ export function Cadastro() {
         }
     };
     
-    // ... (restante do código, incluindo useMemo e handleSubmit)
     const stepSubtitle = useMemo(() => {
         switch (step) {
             case 1:
-                return "Dados da empresa";
+                return "Dados da empresa (CNPJ e contato)";
             case 2:
-                return "Endereço da empresa";
+                return "Endereço da sede da empresa";
             case 3:
-                return "Cadastro de acesso";
+                return "Defina seu e-mail e senha de acesso";
             default:
                 return "";
         }
@@ -199,7 +225,7 @@ export function Cadastro() {
             const enderecoPayload = {
                 ...endereco,
                 cep: endereco.cep.replace(/\D/g, ""), // Limpa o CEP antes de enviar
-                numero: endereco.numero // O número já é tratado para ser apenas dígitos no handleChange
+                numero: endereco.numero 
             };
 
 
@@ -363,21 +389,28 @@ export function Cadastro() {
             <div className={styles['registration-form-area']}>
                 
                 <div className={styles.stepper}>
+                    {/* UI/UX: Step 1 com ícone de check se concluído */}
                     <div className={`${styles.step} ${isActive(1) ? styles.active : ''} ${isCompleted(1) ? styles.completed : ''}`} data-step="1">
-                        <span className={styles['step-number']}>1</span>
+                        <span className={styles['step-number']}>
+                            {isCompleted(1) ? <CheckCircle size={16} /> : 1} 
+                        </span>
                         <span className={styles['step-label']}>Empresa</span>
                     </div>
                     <div className={`${styles['step-connector']} ${isConnectorActive(1) ? styles.active : ''}`}></div>
 
+                    {/* UI/UX: Step 2 com ícone de check se concluído */}
                     <div className={`${styles.step} ${isActive(2) ? styles.active : ''} ${isCompleted(2) ? styles.completed : ''}`} data-step="2">
-                        <span className={styles['step-number']}>2</span>
+                        <span className={styles['step-number']}>
+                            {isCompleted(2) ? <CheckCircle size={16} /> : 2}
+                        </span>
                         <span className={styles['step-label']}>Endereço</span>
                     </div>
                     <div className={`${styles['step-connector']} ${isConnectorActive(2) ? styles.active : ''}`}></div>
 
+                    {/* Step 3 (Ativo ou Inativo) */}
                     <div className={`${styles.step} ${isActive(3) ? styles.active : ''}`} data-step="3">
                         <span className={styles['step-number']}>3</span>
-                        <span className={styles['step-label']}>Cadastro</span>
+                        <span className={styles['step-label']}>Acesso</span> {/* Label reduzido para melhor UI em telas pequenas */}
                     </div>
                 </div>
 
@@ -394,22 +427,35 @@ export function Cadastro() {
                         </div>
                         <div className={styles['input-group']}>
                             <label htmlFor="cnpj">CNPJ:</label>
-                            <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" value={usuario.cnpj} onChange={(e) => handleChange(e, setUsuario)} required maxLength={18} />
+                            {/* UX: placeholder para guiar a máscara */}
+                            <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" value={usuario.cnpj} onChange={(e) => handleChange(e, setUsuario)} required maxLength={18} inputMode="numeric" /> 
                         </div>
                         <div className={styles['input-group']}>
                             <label htmlFor="telefoneEmpresa">Telefone:</label>
-                            <input type="tel" id="telefoneEmpresa" name="telefoneEmpresa" placeholder="(00) 00000-0000" value={usuario.telefoneEmpresa} onChange={(e) => handleChange(e, setUsuario)} required maxLength={15} />
+                            {/* UX: placeholder para guiar a máscara */}
+                            <input type="tel" id="telefoneEmpresa" name="telefoneEmpresa" placeholder="(00) 00000-0000" value={usuario.telefoneEmpresa} onChange={(e) => handleChange(e, setUsuario)} required maxLength={15} inputMode="tel" />
                         </div>
                     </div>
 
                     <div className={`${styles['form-step']} ${isActive(2) ? styles['current-step'] : ''}`} id="step2">
                         <div className={styles['input-group']}>
+                            <label htmlFor="cep">CEP:</label>
+                            {/* UX: inputMode para teclado numérico */}
+                            <input type="text" id="cep" name="cep" placeholder="00000-000" value={endereco.cep} onChange={(e) => handleChange(e, setEndereco)} required maxLength={9} inputMode="numeric" />
+                        </div>
+                        <div className={styles['input-group']}>
                             <label htmlFor="rua">Rua:</label>
+                            {/* UX: o campo "Rua" agora pode ser preenchido automaticamente */}
                             <input type="text" id="rua" name="rua" value={endereco.rua} onChange={(e) => handleChange(e, setEndereco)} required />
                         </div>
                         <div className={styles['input-group']}>
                             <label htmlFor="numero">Número:</label>
-                            <input type="text" id="numero" name="numero" value={endereco.numero} onChange={(e) => handleChange(e, setEndereco)} required />
+                            {/* UX: inputMode para teclado numérico */}
+                            <input type="text" id="numero" name="numero" value={endereco.numero} onChange={(e) => handleChange(e, setEndereco)} required inputMode="numeric" /> 
+                        </div>
+                        <div className={styles['input-group']}>
+                            <label htmlFor="complemento">Complemento: (Opcional)</label> {/* UX: Indica que é opcional */}
+                            <input type="text" id="complemento" name="complemento" value={endereco.complemento} onChange={(e) => handleChange(e, setEndereco)} />
                         </div>
                         <div className={styles['input-group']}>
                             <label htmlFor="bairro">Bairro:</label>
@@ -420,21 +466,13 @@ export function Cadastro() {
                             <input type="text" id="cidade" name="cidade" value={endereco.cidade} onChange={(e) => handleChange(e, setEndereco)} required />
                         </div>
                         <div className={styles['input-group']}>
-                            <label htmlFor="estado">Estado:</label>
+                            <label htmlFor="estado">Estado (UF):</label>
                             <select id="estado" name="estado" value={endereco.estado} onChange={(e) => handleChange(e, setEndereco)} required>
                                 <option value="">Selecione um estado</option>
                                 {ESTADOS.map(estado => (
-                                    <option key={estado.uf} value={estado.uf}>{estado.nome}</option>
+                                    <option key={estado.uf} value={estado.uf}>{`${estado.uf} - ${estado.nome}`}</option>
                                 ))}
                             </select>
-                        </div>
-                        <div className={styles['input-group']}>
-                            <label htmlFor="cep">CEP:</label>
-                            <input type="text" id="cep" name="cep" placeholder="00000-000" value={endereco.cep} onChange={(e) => handleChange(e, setEndereco)} required maxLength={9} />
-                        </div>
-                        <div className={styles['input-group']}>
-                            <label htmlFor="complemento">Complemento:</label>
-                            <input type="text" id="complemento" name="complemento" value={endereco.complemento} onChange={(e) => handleChange(e, setEndereco)} />
                         </div>
                     </div>
 
@@ -466,7 +504,7 @@ export function Cadastro() {
                         )}
                         {step === 3 && (
                             <button type="submit" id="submitBtn" className={styles['btn-primary']}>
-                                Finalizar
+                                Finalizar Cadastro
                             </button>
                         )}
                     </div>

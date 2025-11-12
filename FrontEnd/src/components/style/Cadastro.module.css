@@ -37,12 +37,10 @@
     padding: 50px 30px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Alterado de 'center' para 'space-around' ou 'center' se preferir */
+    justify-content: center; 
     align-items: center;
     text-align: center;
 }
-
-/* Removido: .logo {} */
 
 .registration-branding h1 {
     font-size: 2em;
@@ -115,6 +113,12 @@
     transition: all 0.3s ease;
 }
 
+.step-number svg {
+    /* UI: Garante que o ícone de check se ajuste perfeitamente */
+    display: block; 
+    margin: auto; 
+}
+
 .step-label {
     font-size: 0.8em;
     font-weight: 500;
@@ -130,6 +134,7 @@
     font-weight: 600;
 }
 .step.completed .step-number {
+    /* Estado Concluído - Adiciona o CheckCircle, mantendo a cor primária */
     background-color: var(--primary-color);
     border-color: var(--primary-color);
     color: white;
@@ -169,7 +174,7 @@
     color: #555;
     font-weight: 500;
     margin-bottom: 15px;
-    text-align: left;
+    text-align: center; /* UI/UX: Centraliza o subtítulo */
 }
 
 .form-step {
@@ -177,12 +182,33 @@
 }
 
 .form-step.current-step {
-    display: block;
+    display: grid; /* UI: Alterado de 'block' para 'grid' para melhor controle de layout */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Layout adaptável para inputs */
+    gap: 15px 20px; /* Espaçamento entre os campos */
     animation: fadeIn 0.5s ease-in-out;
 }
 
+/* Correção para inputs de largura total (ou mais longos) como Razão Social */
+.form-step.current-step > div:nth-child(1), /* Razão Social */
+.form-step.current-step > div:nth-child(4) /* Rua (se for o quarto input na etapa 2) */
+ {
+    grid-column: 1 / -1; 
+}
+
+/* Força o layout original em telas pequenas */
+@media (max-width: 550px) {
+    .form-step.current-step {
+        display: block;
+    }
+    .input-group {
+        margin-bottom: 18px;
+    }
+}
+
+
+/* Form Inputs */
 .input-group {
-    margin-bottom: 18px;
+    margin-bottom: 0; /* Removido margem desnecessária se estiver usando grid gap */
 }
 
 .input-group label {
@@ -210,12 +236,13 @@
 .input-group select:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.15);
+    box-shadow: 0 0 0 2px rgba(95, 193, 108, 0.3); /* Corrigido o alpha do primary color */
 }
 
 .input-group select {
     appearance: none; 
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    /* UI: Cor do ícone de dropdown ajustada para um tom mais suave (fill='%23666') */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 16px;
@@ -237,6 +264,7 @@
     transition: background-color 0.3s ease, transform 0.1s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    min-width: 150px; /* UX: Garante que os botões tenham um tamanho mínimo */
 }
 .btn-primary {
     background-color: var(--primary-color);
@@ -311,7 +339,6 @@
     .registration-branding {
         padding: 30px 15px;
     }
-    /* Removido: .logo {max-width: 150px;} */
     .registration-branding h1 {
         font-size: 1.6em;
     }

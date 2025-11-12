@@ -51,6 +51,14 @@
     text-align: center;
 }
 
+/* NOVO UI: Estilo para o ícone de Branding */
+.brandingIcon {
+    font-size: 4em;
+    margin-bottom: 20px;
+    color: var(--primary-color); /* Toque de cor primária */
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
 .loginBranding h1 {
     font-size: 2.2em;
     margin-bottom: 10px;
@@ -70,6 +78,35 @@
     flex-direction: column;
     justify-content: center;
 }
+
+/* NOVO UX/UI: Mensagens de Feedback */
+.feedbackMessage {
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border-radius: var(--border-radius);
+    font-size: 0.9em;
+    font-weight: 500;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.feedbackMessage.error {
+    background-color: #fcebeb; /* Light Red Background */
+    color: #e74c3c; /* Darker Red Text */
+    border: 1px solid #e74c3c;
+}
+
+.feedbackMessage.success {
+    background-color: #eaf7ee; /* Light Green Background */
+    color: var(--primary-color); /* Green Text */
+    border: 1px solid var(--primary-color);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 
 .formHeader {
     text-align: center;
@@ -172,17 +209,33 @@
     font-size: 1em;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease;
+    transition: background-color 0.3s ease, transform 0.1s ease, opacity 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    display: flex; /* MUDANÇA UI: Para centralizar o texto/ícone */
+    align-items: center;
+    justify-content: center;
 }
 
-.btnLogin:hover {
+.btnLogin:hover:not(:disabled) {
     background-color: var(--primary-hover-color);
 }
 
-.btnLogin:active {
+.btnLogin:active:not(:disabled) {
     transform: scale(0.98);
+}
+
+/* NOVO UX/UI: Estado Desabilitado (Carregando) */
+.btnLogin:disabled {
+    background-color: #95a5a6; /* Cor mais suave */
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Estilo para o ícone dentro do botão (Entrar e Seta) */
+.btnLogin i {
+    margin: 0 4px;
+    font-size: 1em;
 }
 
 /* Link de Cadastro */
@@ -225,6 +278,9 @@
     }
     .loginBranding h1 {
         font-size: 1.8em;
+    }
+    .brandingIcon { /* Ajuste do ícone de branding em mobile */
+        font-size: 3em;
     }
 
     .loginFormArea {

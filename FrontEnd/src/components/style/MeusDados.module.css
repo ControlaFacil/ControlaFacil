@@ -5,10 +5,13 @@
     --dark-blue-grey: #0C3447; /* blueControlafacil */
     --light-grey-bg: #f8f9fb; /* gelo */
     --text-color-dark: #333;
+    --text-color-light: #f8f9fa;
     --border-color: #e0e0e0;
     --input-disabled-bg: #f3f4f6; /* Cor mais clara para indicar desabilitado */
+    --input-active-bg: #fff; /* Fundo branco para edição */
     --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     --border-radius: 8px;
+    --error-color: #e74c3c; /* Vermelho para cancelar/erro */
 }
 
 /* --- Layout Principal --- */
@@ -26,16 +29,25 @@
     border-radius: var(--border-radius);
     box-shadow: var(--card-shadow);
     width: 100%;
-    max-width: 900px; /* Largura maior para melhor visualização */
+    max-width: 900px;
     margin: 20px 0;
+}
+
+/* --- Cabeçalho do Formulário (Título e Botões) --- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
 }
 
 .title {
     font-size: 2em;
     font-weight: 700;
-    margin-bottom: 25px;
-    text-align: center;
     color: var(--dark-blue-grey);
+    margin: 0;
 }
 
 .subtitle {
@@ -74,42 +86,61 @@
     color: #555;
 }
 
-/* --- Estilo de Input Desabilitado Padronizado --- */
+/* --- Estilo de Input --- */
 .input {
     width: 100%;
     padding: 10px 12px;
     border-radius: var(--border-radius);
     border: 1px solid var(--border-color);
-    background-color: var(--input-disabled-bg); /* Cor clara de desabilitado */
     color: var(--text-color-dark);
     font-size: 1em;
     font-weight: 500;
+    transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Estilo para inputs DESABILITADOS (Visualização) */
+.input:disabled {
+    background-color: var(--input-disabled-bg); /* Cor clara de desabilitado */
     cursor: default; /* Indica que não é clicável/editável */
+    border-color: var(--border-color);
 }
 
-/* Remove qualquer highlight de foco */
-.input:disabled:focus {
+/* Estilo para inputs HABILITADOS (Edição) */
+.input:not(:disabled) {
+    background-color: var(--input-active-bg);
+    border-color: #a0a0a0;
+}
+.input:not(:disabled):focus,
+.input:not(:disabled) select:focus {
     outline: none;
-    box-shadow: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(95, 193, 108, 0.3);
 }
 
-/* --- Botão de Edição --- */
+/* --- Botões de Ação --- */
 .buttonContainer {
-    margin-top: 40px;
-    text-align: right;
+    display: flex;
+    gap: 10px;
 }
 
 .editBtn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 12px 30px;
+    padding: 10px 20px;
     border-radius: var(--border-radius);
-    font-size: 1em;
+    font-size: 0.9em;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.1s ease;
     text-transform: uppercase;
+}
+
+.editBtn svg {
+    margin-right: 0;
 }
 
 .editBtn:hover {
@@ -119,6 +150,21 @@
     transform: scale(0.98);
 }
 
+.cancelBtn {
+    background-color: #95a5a6; /* Cinza suave para cancelar */
+}
+.cancelBtn:hover {
+    background-color: #7f8c8d;
+}
+.cancelBtn svg {
+    color: var(--error-color); /* Ícone vermelho no botão de cancelamento */
+}
+
+.saveBtn {
+    background-color: var(--primary-color);
+}
+
+
 /* --- Responsividade --- */
 @media (max-width: 768px) {
     .container {
@@ -127,6 +173,18 @@
     .formWrapper {
         padding: 20px;
     }
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .title {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+    .buttonContainer {
+        width: 100%;
+        justify-content: flex-end;
+    }
     .dataGrid {
         grid-template-columns: 1fr; /* Stack em telas pequenas */
         gap: 15px;
@@ -134,10 +192,11 @@
     .formGroupFull {
         grid-column: span 1; /* Ocupa apenas 1 coluna */
     }
-    .title {
-        font-size: 1.5em;
-    }
     .subtitle {
         font-size: 1.1em;
+    }
+    .editBtn {
+        padding: 10px 15px;
+        font-size: 0.8em;
     }
 }
