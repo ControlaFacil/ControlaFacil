@@ -9,11 +9,11 @@ import { UserMenu } from './UserMenu';
 const PRIMARY_NAV_LINKS = [
     { to: "/home", label: "Dashboard" },
     { to: "/estoque", label: "Estoque" },
-    { to: "/relatorios", label: "Relatórios" },
-    { to: "/parceiros", label: "Parceiros" },
+    // { to: "/relatorios", label: "Relatórios" },
+    // { to: "/parceiros", label: "Parceiros" },
     // LINKS DE CADASTRO ADICIONADOS DE VOLTA À NAV PRINCIPAL
     { to: "/cadastro-produto", label: "Cadastrar Produto" },
-    { to: "/cadastro-parceiro", label: "Cadastrar Parceiro" },
+    // { to: "/cadastro-parceiro", label: "Cadastrar Parceiro" },
 ];
 
 export function HeaderU() {
