@@ -187,6 +187,22 @@
     padding: 50px 0;
 }
 
+.selectCustom {
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    color: #333;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.selectCustom:focus {
+    border-color: #0056b3;
+    outline: none;
+    background: #e9ecef;
+}
+
 @media (max-width: 992px) {
     .cardGrid {
         grid-template-columns: repeat(2, 1fr);

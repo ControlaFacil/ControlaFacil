@@ -217,7 +217,7 @@ const CadastroTipoFormulario = ({ setMode, categorias, fetchCategorias }) => {
                     <label htmlFor="categoriaSelect">Vincular à Categoria*</label>
                     <select
                         id="categoriaSelect"
-                        className={styles.input}
+                        className={`${styles.input} ${styles.selectCustom}`} // Adiciona classe customizada
                         value={categoriaSelecionada}
                         onChange={(e) => setCategoriaSelecionada(e.target.value)}
                         disabled={isSubmitting || categorias.length === 0}
@@ -343,7 +343,7 @@ const CadastroModeloFormulario = ({ setMode, tipos, fetchTipos }) => {
                     <label htmlFor="tipoSelect">Vincular ao Tipo de Produto*</label>
                     <select
                         id="tipoSelect"
-                        className={styles.input}
+                        className={`${styles.input} ${styles.selectCustom}`} // Adiciona classe customizada
                         value={tipoSelecionado}
                         onChange={(e) => setTipoSelecionado(e.target.value)}
                         disabled={isSubmitting || tipos.length === 0}
